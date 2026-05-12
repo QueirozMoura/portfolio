@@ -1,73 +1,199 @@
-# React + TypeScript + Vite
+# 🚀 GM DevWeb — Portfólio Premium (React + TypeScript + Tailwind)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div align="center">
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=061a22)
+![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Status](https://img.shields.io/badge/status-online-00d4ff?style=flat-square)
+![UI](https://img.shields.io/badge/UI-dark%20futurista-7c4dff?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-00c853?style=flat-square)
 
-## React Compiler
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## ✨ Sobre o projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**GM DevWeb** é um portfólio one-page com estética **dark, futurista e premium**, desenvolvido para destacar projetos de engenharia full stack, cloud e IA.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Destaques visuais
+- Glassmorphism com blur e transparência
+- Paleta neon cyan/blue/purple
+- Cards translúcidos com glow e microinterações
+- Layout responsivo (desktop, tablet e mobile)
+- Navegação por âncoras com experiência fluida
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Características técnicas
+- Componentização limpa com React + TypeScript
+- Estilo com Tailwind CSS + utilitários globais
+- Estrutura data-driven para projetos, tecnologias e timeline
+- Acessibilidade (labels, semântica e contraste)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+---
+
+## 🧩 Seções do portfólio
+
+- Header / Navegação principal
+- Hero
+- Sobre mim
+- Projetos em destaque
+- Stack / Tecnologias
+- Jornada / Experiência
+- Contato (com validação front-end)
+- Footer
+- SideNav desktop (comportamento contextual)
+
+---
+
+## 🛠️ Stack utilizada
+
+- **React**
+- **TypeScript**
+- **Tailwind CSS**
+- **Vite**
+- **Lucide React** (ícones)
+- **Google Fonts** (Inter + JetBrains Mono)
+
+---
+
+## 📁 Estrutura de pastas
+
+```bash
+src/
+  components/
+    layout/
+      Header.tsx
+      Footer.tsx
+      SideNav.tsx
+    sections/
+      HeroSection.tsx
+      AboutSection.tsx
+      ProjectsSection.tsx
+      TechStackSection.tsx
+      JourneySection.tsx
+      ContactSection.tsx
+    ui/
+      GlassCard.tsx
+      SectionTitle.tsx
+      Button.tsx
+      Badge.tsx
+  data/
+    projects.ts
+    techStack.ts
+    timeline.ts
+    socialLinks.ts
+  styles/
+    globals.css
+  App.tsx
+  main.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ⚙️ Como rodar o projeto localmente
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### 1) Instalar dependências
+```bash
+npm install
 ```
+
+### 2) Executar em modo desenvolvimento
+```bash
+npm run dev
+```
+
+### 3) Gerar build de produção
+```bash
+npm run build
+```
+
+### 4) Visualizar build local
+```bash
+npm run preview
+```
+
+---
+
+## 📜 Scripts disponíveis
+
+- `npm run dev` → inicia servidor de desenvolvimento (Vite)
+- `npm run build` → valida TypeScript e gera build de produção
+- `npm run preview` → pré-visualiza build de produção
+- `npm run lint` → executa lint no projeto
+
+---
+
+## 🧠 Onde editar o conteúdo
+
+### Projetos
+Edite em:
+- `src/data/projects.ts`
+
+### Tecnologias / Stack
+Edite em:
+- `src/data/techStack.ts`
+
+### Jornada / Experiência
+Edite em:
+- `src/data/timeline.ts`
+
+### Links sociais e contato rápido (Header / Mobile / Footer)
+Edite em:
+- `src/data/socialLinks.ts`
+
+---
+
+## 🎨 Design system (tokens e utilitários)
+
+### Configuração de cores
+- `tailwind.config.ts`
+- `tailwind.config.cjs`
+
+### Utilitários globais customizados
+- `src/styles/globals.css`
+
+Classes utilitárias principais:
+- `.glass-panel`
+- `.glass-card`
+- `.glow-cyan`
+- `.ambient-glow`
+- `.bg-gradient-hero`
+- `.neon-border-glow`
+- `.input-dark`
+- `.btn-primary-gradient`
+
+---
+
+## ♿ Acessibilidade e UX
+
+- Estrutura semântica: `header`, `nav`, `main`, `section`, `footer`
+- Inputs com `label`
+- Links e botões com descrições claras
+- Contraste visual adequado para tema dark
+- Responsividade mobile-first
+
+---
+
+## 📦 Deploy (sugestões)
+
+Você pode publicar facilmente em:
+- Vercel
+- Netlify
+- Cloudflare Pages
+- GitHub Pages (com ajustes de base path, se necessário)
+
+---
+
+## 🔐 Licença
+
+Este projeto está sob a licença **MIT**.  
+Sinta-se livre para usar como base e personalizar para seu portfólio.
+
+---
+
+## 💙 Autor
+
+Desenvolvido por **GM DevWeb** com foco em performance, arquitetura e experiência visual premium.
