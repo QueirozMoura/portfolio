@@ -1,7 +1,7 @@
-import { BrainCircuit, CloudCog } from 'lucide-react'
-import { GlassCard } from '../ui/GlassCard'
-import { SectionTitle } from '../ui/SectionTitle'
-import euProfissional from '../../assets/eu-profissional-ce.png'
+import { BrainCircuit, CloudCog } from "lucide-react";
+import { GlassCard } from "../ui/GlassCard";
+import { SectionTitle } from "../ui/SectionTitle";
+import euProfissional from "../../assets/eu-profissional-ce.png";
 
 export function AboutSection() {
   return (
@@ -9,7 +9,8 @@ export function AboutSection() {
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         <SectionTitle
           title="System Core"
-          subtitle="Sou um entusiasta de tecnologia apaixonado por desbravar as fronteiras do desenvolvimento Web e Inteligência Artificial. Com mais de 5 anos de experiência, meu foco é construir arquiteturas escaláveis que não apenas funcionam perfeitamente, mas também contam uma história visual impactante."
+          subtitle="System Core
+          Desenvolvedor Full Stack apaixonado por tecnologia, interfaces modernas e inteligência artificial. Meu foco é construir aplicações escaláveis, performáticas e visualmente marcantes que unem engenharia de software e experiência do usuário."
         />
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
@@ -26,10 +27,13 @@ export function AboutSection() {
               <div className="mb-3 inline-flex rounded-lg bg-secondary/10 p-2 text-secondary">
                 <BrainCircuit className="h-5 w-5" />
               </div>
-              <h3 className="text-lg font-semibold text-onSurface">Cognitive Systems</h3>
+              <h3 className="text-lg font-semibold text-onSurface">
+                Cognitive Systems
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-onSurfaceVariant">
-                Integração de LLMs, automações inteligentes e modelos preditivos em fluxos de
-                trabalho empresariais.
+                Desenvolvimento de soluções com IA, integração de LLMs e
+                automações inteligentes para otimizar processos e criar
+                experiências digitais mais eficientes.
               </p>
             </GlassCard>
 
@@ -37,14 +41,16 @@ export function AboutSection() {
               <div className="mb-3 inline-flex rounded-lg bg-secondary/10 p-2 text-secondary">
                 <CloudCog className="h-5 w-5" />
               </div>
-              <h3 className="text-lg font-semibold text-onSurface">Cloud Ready</h3>
+              <h3 className="text-lg font-semibold text-onSurface">
+                Cloud Ready
+              </h3>
               <p className="mt-2 text-sm leading-relaxed text-onSurfaceVariant">
-                Implantações otimizadas para escala global, alta disponibilidade e baixa latência.
+                Infraestruturas modernas e escaláveis com foco em performance, estabilidade e alta disponibilidade.
               </p>
             </GlassCard>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

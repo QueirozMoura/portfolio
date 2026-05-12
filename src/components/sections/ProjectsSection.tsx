@@ -25,7 +25,12 @@ export function ProjectsSection() {
               </div>
               <p className="mt-4 flex-1 text-sm leading-relaxed text-onSurfaceVariant">{project.description}</p>
               <div className="mt-6 flex gap-3">
-                <Button href={project.demoUrl} variant="ghost">
+                <Button
+                  href={project.demoUrl}
+                  rel={project.demoTarget === '_blank' ? 'noopener noreferrer' : undefined}
+                  target={project.demoTarget}
+                  variant="ghost"
+                >
                   Demo <ArrowUpRight className="h-4 w-4" />
                 </Button>
                 <Button href={project.codeUrl} variant="ghost">

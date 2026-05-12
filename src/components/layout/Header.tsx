@@ -25,7 +25,7 @@ export function Header() {
       <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#inicio" className="inline-flex items-center gap-2 text-sm font-semibold text-onSurface">
           <Terminal className="h-4 w-4 text-secondary" aria-hidden="true" />
-          <span>DevEngine Alpha</span>
+          <span>GM DevWeb</span>
         </a>
 
         <nav className="hidden items-center gap-6 md:flex" aria-label="Navegação principal">

@@ -15,9 +15,9 @@ export function Footer() {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-lg font-semibold text-onSurface">DevEngine Alpha</p>
+            <p className="text-lg font-semibold text-onSurface">GM DevWeb</p>
             <p className="mt-2 text-sm text-onSurfaceVariant">
-              © 2024 Engineered by DevEngine. Construído com precisão neural.
+              © 2026 — Construído além do código.
             </p>
           </div>
           <Badge>v1.2.0-stable</Badge>

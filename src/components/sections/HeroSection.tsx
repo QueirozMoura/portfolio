@@ -12,11 +12,12 @@ export function HeroSection() {
             DISPONÍVEL PARA NOVOS PROJETOS
           </Badge>
           <h1 className="mt-6 text-4xl font-extrabold tracking-tight text-onSurface sm:text-5xl lg:text-6xl">
-            Gabriel <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Architect</span>
+            Gustavo <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">Moura</span>
           </h1>
           <p className="mt-5 max-w-2xl text-base leading-relaxed text-onSurfaceVariant sm:text-lg">
-            Desenvolvedor Full Stack criando experiências modernas com IA e Front-End. Transformando
-            complexidade técnica em interfaces fluidas, escaláveis e intuitivas.
+            Desenvolvedor Full Stack focado em criar experiências digitais modernas, performáticas e
+            visualmente marcantes. Especializado em Front-End premium, interfaces inteligentes e
+            aplicações escaláveis com IA.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button href="#projetos">

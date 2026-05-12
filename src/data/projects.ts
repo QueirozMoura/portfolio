@@ -4,39 +4,44 @@ export interface Project {
   description: string
   demoUrl: string
   codeUrl: string
+  demoTarget?: '_blank'
 }
 
 export const projects: Project[] = [
   {
-    title: 'NeuralFlow Dashboard',
+    title: 'AI Weather Intelligence',
     tags: ['Next.js 14', 'IA', 'Analytics'],
     description:
-      'Plataforma de analytics preditivo em tempo real para infraestrutura cloud descentralizada, integrada com agentes LLM para resposta automatizada a incidentes.',
-    demoUrl: '#',
+      'Plataforma de previsão climática desenvolvida com integração de IA, APIs em tempo real e interfaces modernas para entregar dados meteorológicos de forma inteligente e visualmente intuitiva.',
+    demoUrl: 'https://queirozmoura.github.io/projeto-previsao-do-tempo-com-ia-00/',
+    demoTarget: '_blank',
     codeUrl: '#',
   },
   {
-    title: 'VoidEngine Core',
+    title: 'User Management System',
     tags: ['Rust', 'WASM', 'Performance'],
     description:
-      'Engine gráfica de alta performance compilada para WebAssembly, alcançando 60FPS em simulações complexas diretamente no navegador.',
-    demoUrl: '#',
+      'Aplicação Full Stack criada para gerenciamento inteligente de usuários, utilizando consumo de APIs, arquitetura moderna e interfaces responsivas.',
+    demoUrl: 'https://queirozmoura.github.io/cadastro-usuarios/',
+    demoTarget: '_blank',
     codeUrl: '#',
   },
   {
-    title: 'VaultX Protocol',
+    title: 'AI Translator Platform',
     tags: ['Solidity', 'Ethers.js', 'Web3'],
     description:
-      'Agregador DeFi com foco em segurança institucional, otimização de gas e eficiência de TVL.',
-    demoUrl: '#',
+      'Sistema inteligente de tradução criado com tecnologias modernas, integração de APIs e interfaces responsivas para proporcionar uma experiência fluida e intuitiva.',
+    demoUrl: 'https://queirozmoura.github.io/tradutor/',
+    demoTarget: '_blank',
     codeUrl: '#',
   },
   {
-    title: 'SynthVision AI',
+    title: 'Neural Media Player',
     tags: ['Python', 'PyTorch', 'Computer Vision'],
     description:
-      'Modelo de visão computacional para detecção de objetos em tempo real em ambientes de baixa luminosidade.',
-    demoUrl: '#',
+      'Aplicação Front-End desenvolvida para reprodução multimídia com interface moderna, design responsivo e experiência imersiva focada em usabilidade e performance.',
+    demoUrl: 'https://queirozmoura.github.io/projeto-player/',
+    demoTarget: '_blank',
     codeUrl: '#',
   },
 ]
