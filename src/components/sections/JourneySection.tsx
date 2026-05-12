@@ -34,14 +34,11 @@ export function JourneySection() {
           ))}
         </div>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3">
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
           {education.map((item) => (
             <GlassCard key={item.title} className="p-5">
               <h4 className="text-base font-semibold text-onSurface">{item.title}</h4>
-              {item.institution ? (
-                <p className="mt-2 text-sm text-onSurfaceVariant">{item.institution}</p>
-              ) : null}
-              {item.year ? <p className="mt-1 text-xs font-mono text-secondary">{item.year}</p> : null}
+              <p className="mt-2 text-sm leading-relaxed text-onSurfaceVariant">{item.description}</p>
             </GlassCard>
           ))}
         </div>

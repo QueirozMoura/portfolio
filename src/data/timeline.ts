@@ -8,49 +8,45 @@ export interface TimelineItem {
 
 export interface EducationItem {
   title: string
-  institution?: string
-  year?: string
+  description: string
 }
 
 export const timeline: TimelineItem[] = [
   {
-    period: '2023 — Presente',
-    role: 'Lead Cloud Architect',
+    period: '2025 — Presente',
+    role: 'Frontend & Full Stack Developer',
     company: 'TechFlow Solutions Inc.',
     description:
-      'Liderança técnica na migração de microsserviços para arquitetura serverless, reduzindo latência operacional em 40% e custos de nuvem em 25% através de otimização de recursos AWS.',
+      'Criação de projetos web modernos utilizando tecnologias atuais, consumo de APIs e foco em performance, responsividade e experiência do usuário.',
     tags: ['AWS Lambda', 'Terraform', 'Kubernetes'],
   },
   {
-    period: '2021 — 2023',
-    role: 'Senior Full-Stack Engineer',
+    period: '2025 — Presente',
+    role: 'Full Stack Freelancer',
     company: 'NeuralCore AI',
     description:
-      'Desenvolvimento de interfaces de alta performance e integração de APIs de LLM para análise de dados em tempo real, atendendo mais de 1 milhão de requisições diárias.',
-    tags: ['Next.js', 'Go', 'PyTorch'],
+      'Desenvolvimento de soluções web para clientes independentes, incluindo consumo de APIs, criação de funcionalidades back-end, autenticação de usuários e interfaces modernas otimizadas para diferentes dispositivos.',
+    tags: ['React', 'Node.js', 'Express', 'MySQL', 'REST API'],
   },
   {
-    period: '2019 — 2021',
-    role: 'Backend Developer',
+    period: '2026 — Presente',
+    role: 'Advanced Full Stack Developer',
     company: 'DataPrime Systems',
     description:
-      'Responsável pela manutenção de pipelines de dados ETL e refatoração de APIs legadas para Node.js, aumentando a confiabilidade do sistema para 99.9%.',
-    tags: ['Node.js', 'PostgreSQL', 'Redis'],
+      'Aprofundamento em desenvolvimento Full Stack com foco em arquitetura de aplicações, integração de APIs, lógica back-end e construção de interfaces modernas orientadas à performance e escalabilidade.',
+    tags: ['Next.js', 'Node.js', 'React', 'MongoDB', 'TypeScript'],
   },
 ]
 
 export const education: EducationItem[] = [
   {
-    title: 'Mestrado em Engenharia de Software',
-    institution: 'Universidade Tecnológica Federal',
-    year: '2021',
+    title: 'Técnico Integrado em Desenvolvimento de Sistemas',
+    description:
+      'Formação técnica integrada ao Ensino Médio com foco em programação, desenvolvimento web, banco de dados e lógica computacional.',
   },
   {
-    title: 'Bacharelado em Ciência da Computação',
-    institution: 'Instituto de Tecnologia Avançada',
-    year: '2018',
-  },
-  {
-    title: 'Certificação AWS Solutions Architect Professional',
+    title: 'Análise e Desenvolvimento de Sistemas (ADS)',
+    description:
+      'Cursando atualmente, com foco em desenvolvimento Full Stack, arquitetura de aplicações e inteligência artificial.',
   },
 ]

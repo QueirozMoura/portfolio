@@ -49,7 +49,7 @@ export function ProjectsSection() {
           </p>
           <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
             <Button href="#contato">Agendar conversa</Button>
-            <Button href="#" variant="ghost">
+            <Button href="https://github.com/QueirozMoura" variant="ghost" target="_blank">
               Ver GitHub
             </Button>
           </div>

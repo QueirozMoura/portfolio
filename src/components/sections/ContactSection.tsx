@@ -77,7 +77,7 @@ export function ContactSection() {
             <ul className="mt-5 space-y-4">
               <li className="inline-flex items-center gap-3 text-sm text-onSurfaceVariant">
                 <Mail className="h-4 w-4 text-secondary" />
-                contato@devengine.sh
+                gqueiroz2008@gmail.com
               </li>
               <li className="inline-flex items-center gap-3 text-sm text-onSurfaceVariant">
                 <MapPin className="h-4 w-4 text-secondary" />
