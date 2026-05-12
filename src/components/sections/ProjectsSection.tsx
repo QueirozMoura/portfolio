@@ -6,6 +6,8 @@ import { GlassCard } from '../ui/GlassCard'
 import { SectionTitle } from '../ui/SectionTitle'
 
 export function ProjectsSection() {
+  const baseUrl = import.meta.env.BASE_URL
+
   return (
     <section id="projetos" className="py-16 sm:py-20">
       <div className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -16,7 +18,16 @@ export function ProjectsSection() {
 
         <div className="mt-10 grid gap-6 md:grid-cols-2">
           {projects.map((project) => (
-            <GlassCard key={project.title} className="flex h-full flex-col">
+            <GlassCard key={project.title} className="group flex h-full flex-col">
+              <div className="relative mb-5 overflow-hidden rounded-xl border border-white/10 bg-surfaceContainerLowest/40">
+                <img
+                  src={`${baseUrl}${project.image.replace(/^\//, '')}`}
+                  alt={project.imageAlt}
+                  className="aspect-video w-full object-cover transition-all duration-500 group-hover:scale-[1.02]"
+                  loading="lazy"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surfaceContainerLowest/70 via-transparent to-transparent opacity-70" />
+              </div>
               <h3 className="text-xl font-semibold text-onSurface">{project.title}</h3>
               <div className="mt-4 flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
