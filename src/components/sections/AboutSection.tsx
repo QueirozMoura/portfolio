@@ -1,6 +1,7 @@
 import { BrainCircuit, CloudCog } from 'lucide-react'
 import { GlassCard } from '../ui/GlassCard'
 import { SectionTitle } from '../ui/SectionTitle'
+import euProfissional from '../../assets/eu-profissional-ce.png'
 
 export function AboutSection() {
   return (
@@ -14,8 +15,8 @@ export function AboutSection() {
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_1fr]">
           <div className="glass-card overflow-hidden p-0">
             <img
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80"
-              alt="Retrato profissional de Gabriel Architect"
+              src={euProfissional}
+              alt="Retrato profissional de Gustavo Moura"
               className="h-full w-full object-cover grayscale transition duration-500 hover:grayscale-0"
             />
           </div>
