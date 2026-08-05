@@ -48,7 +48,7 @@ export const projects: Project[] = [
     tags: ['React', 'Node.js', 'PostgreSQL'],
     description:
       'Sistema full stack completo para gestão de assistência técnica, com dashboard administrativo, gestão de clientes e ordens de serviço, controle de estoque e pagamentos, cadastro de técnicos, autenticação segura, área do cliente e integrações com APIs, projetado com arquitetura moderna, escalável e foco em boas práticas de segurança.',
-    image: '/public/image.png',
+    image: '/image.png',
     imageAlt: 'Preview do projeto Assistência Técnica',
     demoUrl: 'https://assistencia-tecnica-mauve.vercel.app',
     demoTarget: '_blank',
