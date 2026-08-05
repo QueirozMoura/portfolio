@@ -44,14 +44,14 @@ export const projects: Project[] = [
     codeUrl: '#',
   },
   {
-    title: 'Neural Media Player',
-    tags: ['Python', 'PyTorch', 'Computer Vision'],
+    title: 'Assistência Técnica',
+    tags: ['React', 'Node.js', 'PostgreSQL'],
     description:
-      'Aplicação Front-End desenvolvida para reprodução multimídia com interface moderna, design responsivo e experiência imersiva focada em usabilidade e performance.',
+      'Sistema full stack completo para gestão de assistência técnica, com dashboard administrativo, gestão de clientes e ordens de serviço, controle de estoque e pagamentos, cadastro de técnicos, autenticação segura, área do cliente e integrações com APIs, projetado com arquitetura moderna, escalável e foco em boas práticas de segurança.',
     image: '/projeto-3.png',
-    imageAlt: 'Preview do projeto Neural Media Player',
-    demoUrl: 'https://queirozmoura.github.io/projeto-player/',
+    imageAlt: 'Preview do projeto Assistência Técnica',
+    demoUrl: 'https://assistencia-tecnica-mauve.vercel.app',
     demoTarget: '_blank',
-    codeUrl: '#',
+    codeUrl: 'https://github.com/QueirozMoura/assistencia-tecnica',
   },
 ]
