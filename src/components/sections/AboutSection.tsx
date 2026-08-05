@@ -1,7 +1,7 @@
 import { BrainCircuit, CloudCog } from "lucide-react";
 import { GlassCard } from "../ui/GlassCard";
 import { SectionTitle } from "../ui/SectionTitle";
-import euProfissional from "../../assets/eu-profissional-ce.png";
+import euProfissional from "../../assets/eu-profissional-3 (1).png";
 
 export function AboutSection() {
   return (
