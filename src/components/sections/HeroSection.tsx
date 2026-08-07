@@ -1,6 +1,11 @@
-import { ArrowRight, Circle } from 'lucide-react'
+import { ArrowRight, Circle, Download } from 'lucide-react'
+import { FaGithub, FaLinkedin } from 'react-icons/fa'
+import { socialLinks } from '../../data/socialLinks'
 import { Badge } from '../ui/Badge'
 import { Button } from '../ui/Button'
+
+const linkedinHref = socialLinks.find((link) => link.icon === 'linkedin')?.href ?? '#'
+const githubHref = socialLinks.find((link) => link.icon === 'github')?.href ?? '#'
 
 export function HeroSection() {
   return (
@@ -25,6 +30,38 @@ export function HeroSection() {
             </Button>
             <Button href="#contato" variant="ghost">
               Entrar em Contato
+            </Button>
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5 sm:justify-start">
+            <Button
+              href={linkedinHref}
+              variant="ghost"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Abrir LinkedIn em nova aba"
+              className="h-10 rounded-xl border-white/10 bg-surfaceContainerHigh/45 px-4 py-2 text-sm text-onSurfaceVariant backdrop-blur-md hover:-translate-y-0.5 hover:border-secondary/45 hover:bg-surfaceContainerHigh/55 hover:text-onSurface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60"
+            >
+              <FaLinkedin className="h-4 w-4" /> LinkedIn
+            </Button>
+            <Button
+              href={githubHref}
+              variant="ghost"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Abrir GitHub em nova aba"
+              className="h-10 rounded-xl border-white/10 bg-surfaceContainerHigh/45 px-4 py-2 text-sm text-onSurfaceVariant backdrop-blur-md hover:-translate-y-0.5 hover:border-secondary/45 hover:bg-surfaceContainerHigh/55 hover:text-onSurface focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60"
+            >
+              <FaGithub className="h-4 w-4" /> GitHub
+            </Button>
+            <Button
+              href={`${import.meta.env.BASE_URL}curriculo.pdf`}
+              variant="ghost"
+              download
+              aria-label="Baixar currículo em PDF"
+              className="h-10 rounded-xl border-secondary/30 bg-gradient-to-r from-secondary/20 to-tertiary/20 px-4 py-2 text-sm text-onSurface backdrop-blur-md hover:-translate-y-0.5 hover:border-secondary/50 hover:shadow-neon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60"
+            >
+              <Download className="h-4 w-4" /> Baixar Currículo
             </Button>
           </div>
         </div>
