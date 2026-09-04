@@ -45,6 +45,6 @@ export const socialLinks: SocialLink[] = [
     icon: "message-circle",
     showInHeaderDesktop: true,
     showInMobileMenu: true,
-    showInFooter: false,
+    showInFooter: false ,
   },
 ];
