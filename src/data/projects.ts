@@ -33,15 +33,15 @@ export const projects: Project[] = [
     codeUrl: '#',
   },
   {
-    title: 'AI Translator Platform',
-    tags: ['Solidity', 'Ethers.js', 'Web3'],
+    title: 'Synclab',
+    tags: ['TypeScript', 'React', 'SQLite', 'PostgreSQL'],
     description:
-      'Sistema inteligente de tradução criado com tecnologias modernas, integração de APIs e interfaces responsivas para proporcionar uma experiência fluida e intuitiva.',
-    image: '/projeto-2.png',
-    imageAlt: 'Preview do projeto AI Translator Platform',
-    demoUrl: 'https://queirozmoura.github.io/tradutor/',
+      'Sistema de sincronização offline-first desenvolvido para aplicações que precisam continuar funcionando mesmo sem conexão com a internet. Utiliza SQLite no navegador, PostgreSQL no servidor e mecanismos de CRDTs e Vector Clocks para controlar alterações, detectar conflitos e realizar a sincronização de dados de forma confiável.',
+    image: '/projeto-3.png',
+    imageAlt: 'Preview do projeto Synclab',
+    demoUrl: '#',
     demoTarget: '_blank',
-    codeUrl: '#',
+    codeUrl: 'https://github.com/QueirozMoura/synclab',
   },
   {
     title: 'Assistência Técnica',
