@@ -39,7 +39,7 @@ export const projects: Project[] = [
       'Sistema de sincronização offline-first desenvolvido para aplicações que precisam continuar funcionando mesmo sem conexão com a internet. Utiliza SQLite no navegador, PostgreSQL no servidor e mecanismos de CRDTs e Vector Clocks para controlar alterações, detectar conflitos e realizar a sincronização de dados de forma confiável.',
     image: '/projeto-3.png',
     imageAlt: 'Preview do projeto Synclab',
-    demoUrl: '#',
+    demoUrl: 'https://synclab-phi.vercel.app',
     demoTarget: '_blank',
     codeUrl: 'https://github.com/QueirozMoura/synclab',
   },
