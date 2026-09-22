@@ -55,10 +55,11 @@ export function HeroSection() {
               <FaGithub className="h-4 w-4" /> GitHub
             </Button>
             <Button
-              href={`${import.meta.env.BASE_URL}curriculo.pdf`}
+              href={`${import.meta.env.BASE_URL}Curriculo_Gustavo_Moura_de_Queiroz.pdf`}
               variant="ghost"
-              download
-              aria-label="Baixar currículo em PDF"
+              target="_blank"
+              rel="noreferrer noopener"
+              aria-label="Abrir currículo em PDF em nova aba"
               className="h-10 rounded-xl border-secondary/30 bg-gradient-to-r from-secondary/20 to-tertiary/20 px-4 py-2 text-sm text-onSurface backdrop-blur-md hover:-translate-y-0.5 hover:border-secondary/50 hover:shadow-neon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary/60"
             >
               <Download className="h-4 w-4" /> Baixar Currículo
