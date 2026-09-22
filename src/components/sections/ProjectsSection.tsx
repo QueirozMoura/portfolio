@@ -44,7 +44,12 @@ export function ProjectsSection() {
                 >
                   Demo <ArrowUpRight className="h-4 w-4" />
                 </Button>
-                <Button href={project.codeUrl} variant="ghost">
+                <Button
+                  href={project.codeUrl}
+                  rel={project.codeTarget === '_blank' ? 'noopener noreferrer' : undefined}
+                  target={project.codeTarget}
+                  variant="ghost"
+                >
                   Código <GitBranch className="h-4 w-4" />
                 </Button>
               </div>

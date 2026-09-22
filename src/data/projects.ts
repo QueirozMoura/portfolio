@@ -7,6 +7,7 @@ export interface Project {
   demoUrl: string
   codeUrl: string
   demoTarget?: '_blank'
+  codeTarget?: '_blank'
 }
 
 export const projects: Project[] = [
@@ -22,15 +23,16 @@ export const projects: Project[] = [
     codeUrl: '#',
   },
   {
-    title: 'User Management System',
-    tags: ['Rust', 'WASM', 'Performance'],
+    title: 'Garantia+',
+    tags: ['TypeScript', 'React', 'Node.js', 'Express', 'Prisma', 'PostgreSQL', 'JWT', 'Zod'],
     description:
-      'Aplicação Full Stack criada para gerenciamento inteligente de usuários, utilizando consumo de APIs, arquitetura moderna e interfaces responsivas.',
-    image: '/projeto-1.png',
-    imageAlt: 'Preview do projeto User Management System',
-    demoUrl: 'https://queirozmoura.github.io/cadastro-usuarios/',
+      'Plataforma Full Stack para organização de compras, garantias e documentos, com autenticação, gerenciamento de produtos e garantias e uma arquitetura moderna voltada para segurança e organização das informações.',
+    image: '/Screenshot 2026-09-22 025607.png',
+    imageAlt: 'Preview do projeto Garantia+',
+    demoUrl: 'https://garantia-two.vercel.app/',
     demoTarget: '_blank',
-    codeUrl: '#',
+    codeUrl: 'https://github.com/QueirozMoura/garantia-',
+    codeTarget: '_blank',
   },
   {
     title: 'Synclab',
