@@ -40,7 +40,7 @@ export const socialLinks: SocialLink[] = [
   },
   {
     label: "WhatsApp",
-    href: "https://wa.me/5500000000000",
+    href: "https://wa.me/5511956951462",
     type: "whatsapp",
     icon: "message-circle",
     showInHeaderDesktop: true,
