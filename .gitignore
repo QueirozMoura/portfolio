@@ -1,0 +1,23 @@
+# dependências e builds
+node_modules
+dist
+*.tsbuildinfo
+
+# deploy e ambiente local
+.vercel
+.env
+.env.*
+!.env.example
+*.local
+*.log
+
+# sistema / editor
+.DS_Store
+Thumbs.db
+.idea
+.vscode
+
+# mídia-fonte (vídeos e imagens geradas por IA, na raiz): não é necessária para rodar o site.
+# O site usa apenas public/frames, public/posters e public/og.jpg, já gerados.
+/*.mp4
+/*.jpg

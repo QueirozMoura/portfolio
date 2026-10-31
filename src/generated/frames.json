@@ -1,0 +1,72 @@
+{
+  "hero": {
+    "d": {
+      "count": 119,
+      "width": 1920,
+      "height": 1080,
+      "bytes": 12001490
+    },
+    "t": {
+      "count": 95,
+      "width": 1280,
+      "height": 720,
+      "bytes": 5495040
+    }
+  },
+  "sobre": {
+    "d": {
+      "count": 119,
+      "width": 1920,
+      "height": 1080,
+      "bytes": 21284232
+    },
+    "t": {
+      "count": 95,
+      "width": 1280,
+      "height": 720,
+      "bytes": 10008256
+    }
+  },
+  "tecnologias": {
+    "d": {
+      "count": 119,
+      "width": 1920,
+      "height": 1080,
+      "bytes": 18052986
+    },
+    "t": {
+      "count": 95,
+      "width": 1280,
+      "height": 720,
+      "bytes": 8546126
+    }
+  },
+  "projetos": {
+    "d": {
+      "count": 119,
+      "width": 1920,
+      "height": 1080,
+      "bytes": 15892208
+    },
+    "t": {
+      "count": 95,
+      "width": 1280,
+      "height": 720,
+      "bytes": 7272426
+    }
+  },
+  "contato": {
+    "d": {
+      "count": 119,
+      "width": 1920,
+      "height": 1080,
+      "bytes": 23352134
+    },
+    "t": {
+      "count": 95,
+      "width": 1280,
+      "height": 720,
+      "bytes": 10955944
+    }
+  }
+}
