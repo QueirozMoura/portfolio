@@ -4,8 +4,8 @@ export const SITE = {
   location: 'São Paulo, Brasil',
   github: 'https://github.com/QueirozMoura',
   linkedin: 'https://www.linkedin.com/in/gustavomoura-/',
-  /** Nenhum e-mail público foi informado. Preencha para exibir o botão de e-mail no contato. */
-  email: '' as string,
+  /** E-mail público de contato, informado pelo Gustavo. Vazio oculta o botão no Contato. */
+  email: 'gqueiroz2008@gmail.com' as string,
 }
 
 export const NAV = [

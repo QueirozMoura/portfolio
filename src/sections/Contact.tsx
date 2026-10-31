@@ -25,7 +25,7 @@ export function Contact() {
           </ExtLink>
           {SITE.email && (
             <a href={`mailto:${SITE.email}`} className={`${btnGlass} flex-1 justify-center sm:flex-none`}>
-              <Mail className="h-4 w-4" aria-hidden="true" /> E-mail
+              <Mail className="h-4 w-4" aria-hidden="true" /> E-mail<span className="sr-only"> (abre o aplicativo de e-mail)</span>
             </a>
           )}
         </div>

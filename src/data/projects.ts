@@ -59,6 +59,7 @@ export const PROJECTS: Project[] = [
   {
     name: 'SyncLab',
     summary: 'Experimento de edição colaborativa offline-first usando CRDT.',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Fastify', 'PostgreSQL', 'IndexedDB', 'Vitest'],
     highlights: ['Sincronização de dados', 'Arquitetura offline-first', 'Testes automatizados'],
     demo: 'https://synclab-phi.vercel.app',
     code: 'https://github.com/QueirozMoura/synclab',
@@ -87,7 +88,12 @@ export const PROJECTS: Project[] = [
   {
     name: 'Pulse',
     summary: 'Sistema de monitoramento e status de aplicações.',
+    stack: ['React', 'TypeScript', 'Vite', 'Fastify', 'Prisma', 'PostgreSQL'],
     highlights: ['Monitoramento de serviços', 'Histórico de disponibilidade', 'Painel administrativo', 'Alertas'],
     code: 'https://github.com/QueirozMoura/pulse',
+    image: {
+      base: 'pulse',
+      alt: 'Página pública de status do Pulse, com o aviso de que todos os sistemas estão operacionais, o traçado de sinal e a disponibilidade em 24 horas.',
+    },
   },
 ]

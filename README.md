@@ -58,7 +58,7 @@ O script usa `ffmpeg-static`, não faz upscale e atualiza `src/generated/frames.
 ## Ajustes rápidos
 
 - **Ritmo do scroll:** `src/config/scenes.ts` (distância de cada cena em alturas de viewport).
-- **E-mail de contato:** preencha `email` em `src/data/site.ts` para exibir o botão de e-mail na seção Contato.
+- **E-mail de contato:** definido em `email` em `src/data/site.ts` (vazio oculta o botão no Contato).
 - **Projetos e tecnologias:** `src/data/projects.ts` e `src/data/stack.tsx`.
 
 ## Deploy

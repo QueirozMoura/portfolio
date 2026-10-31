@@ -101,9 +101,21 @@ body {
   animation: nudge 2.2s ease-in-out infinite;
 }
 
+@keyframes avail-ping {
+  75%,
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+.avail-ping {
+  animation: avail-ping 2.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .intro,
-  .nudge {
+  .nudge,
+  .avail-ping {
     animation: none;
   }
 }

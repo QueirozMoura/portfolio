@@ -21,6 +21,16 @@ export function Hero() {
       {/* bloco ancorado na base; o respiro superior vem do espaço que sobra, nunca de margem fixa */}
       <div className="scene-pad relative mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-[clamp(2rem,10svh,6rem)] md:px-10">
         <div data-fx="hero-text" className="flex max-w-xl flex-col items-start lg:max-w-2xl">
+          <p
+            className="intro glass mb-[2svh] inline-flex items-start gap-2.5 rounded-2xl px-3.5 py-2 text-xs leading-snug text-frost/85 short:hidden sm:items-center sm:text-[13px]"
+            style={delay(0)}
+          >
+            <span className="relative mt-[3px] flex h-2 w-2 shrink-0 sm:mt-0" aria-hidden="true">
+              <span className="avail-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/70" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            Aberto a oportunidades de estágio em Desenvolvimento de Software.
+          </p>
           <p className="intro text-sm text-frost/70 sm:text-base" style={delay(0)}>
             {SITE.role} • {SITE.location}
           </p>

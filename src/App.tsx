@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { detectCompact, detectMotionMode, detectProfile } from './lib/capabilities'
 import { MotionContext } from './lib/motion-context'
+import { useAnchorLanding } from './lib/anchors'
 import { Navbar } from './components/Navbar'
 import { ProgressBar } from './components/ProgressBar'
 import { Footer } from './components/Footer'
@@ -12,6 +13,7 @@ import { Contact } from './sections/Contact'
 
 export default function App() {
   const motion = useMemo(() => ({ mode: detectMotionMode(), profile: detectProfile(), compact: detectCompact() }), [])
+  useAnchorLanding(motion.mode, motion.compact)
   return (
     <MotionContext.Provider value={motion}>
       <a
