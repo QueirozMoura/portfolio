@@ -266,3 +266,28 @@ section > div p {
     box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.9), 0 0 80px -26px rgb(0 217 255 / 0.5);
   }
 }
+
+/* ───────── desempenho no celular ─────────
+   backdrop-filter sobre um canvas que muda a cada quadro é o acabamento mais caro da GPU móvel.
+   Os painéis densos já são quase opacos: trocam o desfoque por fundo sólido equivalente.
+   A navbar e os botões mantêm um desfoque leve. Desktop e tablet não mudam. */
+@media (max-width: 767px) {
+  .glass {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .glass-dense {
+    background: linear-gradient(160deg, rgb(11 15 36 / 0.86), rgb(6 8 22 / 0.8));
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+/* modo lite (governador de desempenho): o aparelho não sustentou a fluidez */
+:root[data-perf='lite'] .glass,
+:root[data-perf='lite'] .glass-dense {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+:root[data-perf='lite'] .glass {
+  background: linear-gradient(160deg, rgb(20 26 52 / 0.72), rgb(10 13 32 / 0.66));
+}

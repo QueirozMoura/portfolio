@@ -14,7 +14,8 @@ React 19 · TypeScript · Vite · Tailwind CSS 4 · GSAP + ScrollTrigger · Luci
 - **Pinning com `position: sticky`:** cada cena fica fixa durante o percurso e a próxima sobe sobre os últimos instantes da anterior, formando um **crossfade** real entre dois canvases.
 - **Uma única suavização:** o ScrollTrigger só informa o alvo; um ticker do GSAP interpola o progresso e alimenta ao mesmo tempo os textos (timeline) e o frame do canvas.
 - **Carregamento inteligente:** o hero carrega primeiro; as demais cenas começam por um esboço (1 a cada 4 frames) e completam quando ficam perto da tela. Os frames decodificados ficam num cache LRU limitado por bytes e são liberados quando a cena sai do viewport. Os posters cobrem qualquer espera.
-- **Qualidade:** frames em resolução nativa (1920×1080) para desktop/tablet e 1280×720 para celulares ou aparelhos com pouca memória. O canvas renderiza na escala do frame, sem ampliação por CSS.
+- **Qualidade:** frames em resolução nativa (1920×1080) para desktop e tablet deitado. Celular em pé usa um recorte retrato 450×800 (só a região que o `cover` mostraria, ~1/3 dos pixels), tablet em pé usa o mesmo recorte em 608×1080 nativos, e celular deitado ou aparelho com pouca memória usa 1280×720. O perfil muda se o aparelho girar.
+- **Desempenho móvel:** limites de memória, downloads e decodificações simultâneas por perfil; janela de decodificação direcional; repintura do canvas a ~30 Hz; download obsoleto cancelado ao sair da cena. Um governador (`lib/perf.ts`) mede os quadros durante a rolagem e, se o aparelho não sustentar ~24 fps, entra no modo *lite* (sem mistura entre frames, sem `backdrop-filter`). `prefers-reduced-motion`, economia de dados, conexão 2G e pouca memória/CPU usam o modo estático com posters.
 - **Acessibilidade e fallback:** com `prefers-reduced-motion`, economia de dados ou aparelhos fracos, o site mostra os posters estáticos, sem as faixas longas de scroll. Há skip link, foco visível, menu mobile acessível e links externos com `rel="noopener noreferrer"`.
 
 ## Rodando localmente
@@ -40,7 +41,7 @@ src/
   data/                 projetos, stack e dados do site
   generated/frames.json manifest gerado pelo pipeline de mídia
 public/
-  frames/<cena>/{d,t}/  sequências WebP (d = 1920×1080, t = 1280×720)
+  frames/<cena>/{d,t,m,p}/  sequências WebP (d = 1920×1080, t = 1280×720, m = 450×800 retrato, p = 608×1080 retrato)
   posters/              imagens estáticas de cada cena
 scripts/extract-frames.mjs
 ```
@@ -51,6 +52,7 @@ Os frames já estão versionados em `public/frames`, então o site roda sem os v
 
 ```bash
 npm run frames                 # QUALITY_D=90 npm run frames para ajustar a qualidade
+PROFILES=m,p npm run frames    # regenera só os perfis retrato, sem tocar nos demais
 ```
 
 O script usa `ffmpeg-static`, não faz upscale e atualiza `src/generated/frames.json`.

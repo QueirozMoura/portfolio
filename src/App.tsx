@@ -1,7 +1,8 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { detectCompact, detectMotionMode, detectProfile } from './lib/capabilities'
 import { MotionContext } from './lib/motion-context'
 import { useAnchorLanding } from './lib/anchors'
+import { usePerfGovernor } from './lib/perf'
 import { Navbar } from './components/Navbar'
 import { ProgressBar } from './components/ProgressBar'
 import { Footer } from './components/Footer'
@@ -11,8 +12,24 @@ import { Tech } from './sections/Tech'
 import { Projects } from './sections/Projects'
 import { Contact } from './sections/Contact'
 
+/** O perfil muda se o celular girar (retrato ↔ paisagem); só então os frames são trocados. */
+function useProfile() {
+  const [profile, setProfile] = useState(detectProfile)
+  useEffect(() => {
+    const mq = window.matchMedia('(orientation: portrait)')
+    const on = () => setProfile(detectProfile())
+    mq.addEventListener('change', on)
+    return () => mq.removeEventListener('change', on)
+  }, [])
+  return profile
+}
+
 export default function App() {
-  const motion = useMemo(() => ({ mode: detectMotionMode(), profile: detectProfile(), compact: detectCompact() }), [])
+  const profile = useProfile()
+  const [mode] = useState(detectMotionMode)
+  const [compact] = useState(detectCompact)
+  const motion = useMemo(() => ({ mode, profile, compact }), [mode, profile, compact])
+  usePerfGovernor(mode === 'sequence' && profile !== 'd')
   useAnchorLanding(motion.mode, motion.compact)
   return (
     <MotionContext.Provider value={motion}>

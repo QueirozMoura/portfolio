@@ -11,6 +11,20 @@
       "width": 1280,
       "height": 720,
       "bytes": 5495040
+    },
+    "m": {
+      "count": 79,
+      "width": 450,
+      "height": 800,
+      "bytes": 2073194,
+      "cropped": true
+    },
+    "p": {
+      "count": 95,
+      "width": 608,
+      "height": 1080,
+      "bytes": 3734586,
+      "cropped": true
     }
   },
   "sobre": {
@@ -25,6 +39,20 @@
       "width": 1280,
       "height": 720,
       "bytes": 10008256
+    },
+    "m": {
+      "count": 79,
+      "width": 450,
+      "height": 800,
+      "bytes": 3052118,
+      "cropped": true
+    },
+    "p": {
+      "count": 95,
+      "width": 608,
+      "height": 1080,
+      "bytes": 5444832,
+      "cropped": true
     }
   },
   "tecnologias": {
@@ -39,6 +67,20 @@
       "width": 1280,
       "height": 720,
       "bytes": 8546126
+    },
+    "m": {
+      "count": 79,
+      "width": 450,
+      "height": 800,
+      "bytes": 3012922,
+      "cropped": true
+    },
+    "p": {
+      "count": 95,
+      "width": 608,
+      "height": 1080,
+      "bytes": 5381570,
+      "cropped": true
     }
   },
   "projetos": {
@@ -53,6 +95,20 @@
       "width": 1280,
       "height": 720,
       "bytes": 7272426
+    },
+    "m": {
+      "count": 79,
+      "width": 450,
+      "height": 800,
+      "bytes": 2386556,
+      "cropped": true
+    },
+    "p": {
+      "count": 95,
+      "width": 608,
+      "height": 1080,
+      "bytes": 4381358,
+      "cropped": true
     }
   },
   "contato": {
@@ -67,6 +123,20 @@
       "width": 1280,
       "height": 720,
       "bytes": 10955944
+    },
+    "m": {
+      "count": 79,
+      "width": 450,
+      "height": 800,
+      "bytes": 4288138,
+      "cropped": true
+    },
+    "p": {
+      "count": 95,
+      "width": 608,
+      "height": 1080,
+      "bytes": 7646680,
+      "cropped": true
     }
   }
 }

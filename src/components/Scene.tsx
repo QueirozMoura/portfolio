@@ -63,6 +63,8 @@ export function Scene({ id, label, children, after, build, focusX = 0.5, endDim 
     let current = 0
     let enterTarget = first ? 1 : 0
     let enter = enterTarget
+    let shownProgress = -1
+    let shownEnter = -1
 
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } })
@@ -97,10 +99,18 @@ export function Scene({ id, label, children, after, build, focusX = 0.5, endDim 
         current = Math.abs(diff) > SNAP_DISTANCE ? target : current + diff * k
         if (Math.abs(target - current) < 0.0002) current = target
         progressRef.current = current
-        tl.progress(current)
+        // cinco cenas rodam este tick: só mexe no DOM quando o valor mudou (cena parada = custo ~zero)
+        if (current !== shownProgress) {
+          shownProgress = current
+          tl.progress(current)
+        }
         if (!first) {
           enter = Math.abs(enterTarget - enter) > SNAP_DISTANCE ? enterTarget : enter + (enterTarget - enter) * k
-          root.style.opacity = String(Math.min(1, Math.max(0, enter)))
+          if (Math.abs(enterTarget - enter) < 0.0005) enter = enterTarget
+          if (enter !== shownEnter) {
+            shownEnter = enter
+            root.style.opacity = String(Math.min(1, Math.max(0, enter)))
+          }
         }
       }
       gsap.ticker.add(tick)
