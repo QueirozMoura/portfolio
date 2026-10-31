@@ -25,9 +25,14 @@ export function TechGlyph({ icon, className = 'h-4 w-4' }: { icon: TechIcon; cla
 }
 
 /** Link externo seguro. */
-export function ExtLink({ href, children, className }: { href: string; children: ReactNode; className?: string }) {
+export function ExtLink({
+  href,
+  children,
+  className,
+  ...rest
+}: { href: string; children: ReactNode; className?: string } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'children' | 'className'>) {
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={className}>
+    <a href={href} target="_blank" rel="noopener noreferrer" className={className} {...rest}>
       {children}
     </a>
   )

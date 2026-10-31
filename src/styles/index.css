@@ -171,3 +171,86 @@ section > div p {
     font-size: clamp(1.5rem, min(7vw, 4.8svh + 0.5rem), 2.5rem);
   }
 }
+
+/* ───────── galeria de projetos ───────── */
+/* texto dos cards: sem a sombra de legibilidade das cenas (o painel já é denso) */
+.proj-card h3,
+.proj-card p {
+  text-shadow: none;
+}
+
+.shot-stage {
+  perspective: 1400px;
+}
+.shot {
+  --rx: 0deg;
+  --ry: 0deg;
+  transform: rotateX(var(--rx)) rotateY(var(--ry));
+  transform-style: preserve-3d;
+  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  will-change: transform;
+}
+/* borda fina com reflexos cyan e roxo */
+.shot-border {
+  padding: 1px;
+  border-radius: 1.125rem;
+  background: linear-gradient(135deg, rgb(0 217 255 / 0.55), rgb(255 255 255 / 0.1) 38%, rgb(255 255 255 / 0.06) 62%, rgb(139 92 246 / 0.6));
+  box-shadow: 0 30px 70px -28px rgb(0 0 0 / 0.85), 0 0 60px -30px rgb(0 217 255 / 0.35);
+}
+.shot-window {
+  position: relative;
+  overflow: hidden;
+  border-radius: calc(1.125rem - 1px);
+  background: #0a0d1c;
+}
+.shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  height: 2rem;
+  padding: 0 0.85rem;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.04));
+  border-bottom: 1px solid rgb(255 255 255 / 0.08);
+}
+.shot-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.22);
+}
+.shot-url {
+  margin-left: 0.6rem;
+  max-width: 70%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-radius: 9999px;
+  background: rgb(0 0 0 / 0.28);
+  padding: 0.15rem 0.7rem;
+  font-size: 0.7rem;
+  color: rgb(245 247 255 / 0.6);
+}
+/* reflexo sutil: só aparece no hover real (mouse) e nunca cobre a interface */
+.shot-gloss {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 400ms;
+  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgb(255 255 255 / 0.1), transparent 55%);
+}
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .shot {
+    transform: none !important;
+    transition: none;
+    will-change: auto;
+  }
+}
+@media (hover: hover) and (pointer: fine) {
+  .shot:hover .shot-gloss {
+    opacity: 1;
+  }
+  .shot:hover .shot-border {
+    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.9), 0 0 80px -26px rgb(0 217 255 / 0.5);
+  }
+}

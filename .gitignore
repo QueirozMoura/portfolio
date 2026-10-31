@@ -21,3 +21,6 @@ Thumbs.db
 # O site usa apenas public/frames, public/posters e public/og.jpg, já gerados.
 /*.mp4
 /*.jpg
+
+# capturas originais (PNG 1920x1080): usamos as versões otimizadas em public/projects
+/Screenshot*.png
