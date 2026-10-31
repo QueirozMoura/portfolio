@@ -90,6 +90,7 @@ export const PROJECTS: Project[] = [
     summary: 'Sistema de monitoramento e status de aplicações.',
     stack: ['React', 'TypeScript', 'Vite', 'Fastify', 'Prisma', 'PostgreSQL'],
     highlights: ['Monitoramento de serviços', 'Histórico de disponibilidade', 'Painel administrativo', 'Alertas'],
+    demo: 'https://pulse-e8vz.onrender.com',
     code: 'https://github.com/QueirozMoura/pulse',
     image: {
       base: 'pulse',
