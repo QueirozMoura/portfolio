@@ -63,6 +63,6 @@ O script usa `ffmpeg-static`, não faz upscale e atualiza `src/generated/frames.
 
 ## Deploy
 
-Compatível com Vercel (`vercel.json` define cache longo para frames e posters).
+Publicado no **GitHub Pages** em <https://gustavomoura.dev> por um workflow (`.github/workflows/deploy.yml`) que roda lint e build a cada push na `main`. O domínio é definido por `public/CNAME`.
 
 © 2026 Gustavo Moura
