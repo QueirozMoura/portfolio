@@ -1,63 +1,75 @@
-import { ArrowDown } from 'lucide-react'
-import { Scene } from '../components/Scene'
-import { btnGlass, btnPrimary } from '../components/ui'
-import { SITE } from '../data/site'
-import type { Timing } from '../config/scenes'
+import { ArrowRight } from 'lucide-react'
+import { HeroRibbon } from '../components/HeroRibbon'
+import { CROSSFADE } from '../config/scenes'
+import { useMotion } from '../lib/motion-context'
 
-function build(tl: gsap.core.Timeline, t: Timing) {
-  // a dica some logo no primeiro gesto; o texto fica legível enquanto a escultura gira e só sai perto do fim
-  tl.to('[data-fx="hint"]', { opacity: 0, duration: t.at(0.3) }, 0)
-  tl.to('[data-fx="hero-text"]', { opacity: 0, y: -90, duration: t.at(0.9) }, t.at(t.tailStart - 1.0))
-}
+const STATS = [
+  { value: '5+', label: 'Projetos reais' },
+  { value: 'Full Stack', label: 'Do frontend ao backend' },
+  { value: 'ADS', label: 'Em formação' },
+]
 
 const delay = (i: number) => ({ '--i': i }) as React.CSSProperties
 
+/**
+ * Hero estática: HTML + CSS + um SVG leve. Sem canvas, frames, vídeo nem GSAP.
+ * A entrada é uma animação CSS única (opacity/transform) e respeita prefers-reduced-motion.
+ */
 export function Hero() {
+  const { mode } = useMotion()
   return (
-    <Scene id="hero" label="Início" focusX={0.5} build={build} first>
-      {/* leitura: degradê lateral (desktop) + base escura (mobile), sem cobrir a escultura */}
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/30 to-transparent" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[72%] bg-gradient-to-t from-ink/90 via-ink/60 to-transparent md:hidden" />
-      {/* bloco ancorado na base; o respiro superior vem do espaço que sobra, nunca de margem fixa */}
-      <div className="scene-pad relative mx-auto flex h-full max-w-6xl flex-col justify-end px-6 pb-[clamp(2rem,10svh,6rem)] md:px-10">
-        <div data-fx="hero-text" className="flex max-w-xl flex-col items-start lg:max-w-2xl">
-          <p
-            className="intro glass mb-[2svh] inline-flex items-start gap-2.5 rounded-2xl px-3.5 py-2 text-xs leading-snug text-frost/85 short:hidden sm:items-center sm:text-[13px]"
-            style={delay(0)}
-          >
-            <span className="relative mt-[3px] flex h-2 w-2 shrink-0 sm:mt-0" aria-hidden="true">
-              <span className="avail-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400/70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            Aberto a oportunidades de estágio em Desenvolvimento de Software.
-          </p>
-          <p className="intro text-sm text-frost/70 sm:text-base" style={delay(0)}>
-            {SITE.role} • {SITE.location}
-          </p>
-          <h1 className="intro t-name font-display mt-[1.5svh] font-bold uppercase text-chrome" style={delay(1)}>
-            Gustavo
-            <br />
-            Moura
-          </h1>
-          <p className="intro t-lead font-display mt-[2.5svh] max-w-[22ch] font-light" style={delay(2)}>
-            Transformo ideias em experiências digitais.
-          </p>
-          <p className="intro t-body mt-[1.6svh] max-w-md text-frost/65 short:hidden" style={delay(3)}>
-            Desenvolvedor Full Stack criando interfaces, APIs e produtos digitais que unem tecnologia, desempenho e experiência.
-          </p>
-          <div className="intro mt-[3svh] flex flex-wrap gap-3" style={delay(4)}>
-            <a href="#projetos" className={btnPrimary}>
-              Explorar projetos
-            </a>
-            <a href="#contato" className={btnGlass}>
-              Vamos conversar
-            </a>
+    <>
+      <section id="hero" aria-labelledby="hero-title" className="hero relative isolate overflow-hidden bg-base text-paper">
+        <div className="hero-backdrop pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
+        <HeroRibbon className="hero-ribbon pointer-events-none absolute -z-10" />
+
+        <div className="hero-grid relative mx-auto grid min-h-svh grid-rows-[1fr_auto] lg:grid-rows-1 w-full max-w-[90rem] px-4 pb-8 pt-24 sm:px-6 sm:pb-10 md:pt-28 lg:grid-cols-12 lg:gap-x-8 lg:px-10 lg:pb-12">
+          <div className="flex flex-col justify-end lg:col-span-8 lg:justify-center">
+            <p className="hero-in hero-eyebrow" style={delay(0)}>
+              <span className="hero-eyebrow-line" aria-hidden="true" />
+              Desenvolvedor Full Stack
+            </p>
+
+            <h1 id="hero-title" className="font-grotesk mt-5 sm:mt-6">
+              <span className="hero-in hero-name block" style={delay(1)}>
+                Gustavo <span className="whitespace-nowrap">Moura</span>
+              </span>
+              <span className="hero-in hero-tagline mt-4 block sm:mt-6" style={delay(2)}>
+                Desenvolvendo <span className="text-lime">soluções reais</span> com tecnologia.
+              </span>
+            </h1>
+
+            <p className="hero-in hero-desc mt-5 sm:mt-6" style={delay(3)}>
+              Transformo ideias em aplicações completas, performáticas e com foco na experiência do usuário.
+            </p>
+
+            <div className="hero-in mt-7 flex flex-wrap gap-3 sm:mt-9" style={delay(4)}>
+              <a href="#projetos" className="btn-lime">
+                Ver Projetos
+                <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
+              </a>
+              <a href="#contato" className="btn-outline">
+                Entrar em Contato
+              </a>
+            </div>
           </div>
+
+          <ul className="hero-in hero-stats mt-10 lg:col-span-3 lg:col-start-10 lg:mt-0 lg:self-end" style={delay(5)} aria-label="Resumo">
+            {STATS.map(({ value, label }) => (
+              <li key={value} className="hero-stat">
+                <strong className="font-grotesk hero-stat-value">{value}</strong>
+                <span className="hero-stat-label">{label}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <div data-fx="hint" className="absolute bottom-6 right-6 hidden items-center gap-2 text-xs text-frost/50 md:flex">
-          Role para explorar <ArrowDown className="nudge h-4 w-4" aria-hidden="true" />
-        </div>
-      </div>
-    </Scene>
+      </section>
+      {/*
+        A cena "Sobre" entra com crossfade sobre os últimos CROSSFADE×100svh da seção anterior (margem negativa
+        em components/Scene). Como a Hero deixou de ser uma cena fixa, este espaço reserva essa faixa para que o
+        Sobre continue entrando exatamente como antes, sem cobrir a Hero. No modo estático não há sobreposição.
+      */}
+      {mode === 'sequence' && <div aria-hidden="true" className="hero-tail" style={{ height: `${CROSSFADE * 100}svh` }} />}
+    </>
   )
 }

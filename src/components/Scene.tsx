@@ -4,6 +4,16 @@ import { useMotion } from '../lib/motion-context'
 import { CROSSFADE, SMOOTHING, SNAP_DISTANCE, getTiming, type SceneId, type Timing } from '../config/scenes'
 import { ScrollSequence } from './ScrollSequence'
 
+/** Executa `fn` depois do evento load da página (ou já, se ele passou). Devolve um cancelador. */
+function afterPageLoad(fn: () => void) {
+  if (document.readyState === 'complete') {
+    const t = setTimeout(fn, 0)
+    return () => clearTimeout(t)
+  }
+  window.addEventListener('load', fn, { once: true })
+  return () => window.removeEventListener('load', fn)
+}
+
 interface SceneProps {
   id: SceneId
   label: string
@@ -46,12 +56,22 @@ export function Scene({ id, label, children, after, build, focusX = 0.5, endDim 
     const root = rootRef.current
     if (!sequence || !root) return
     const near = new IntersectionObserver(([e]) => setActive(e.isIntersecting), { rootMargin: '100% 0px 100% 0px' })
-    const far = new IntersectionObserver(([e]) => e.isIntersecting && setLoad(true), { rootMargin: '300% 0px 300% 0px' })
+    // a pré-carga dos frames só começa depois do evento load: não disputa banda com a primeira pintura (LCP da Hero)
+    let cancelLoadWait = () => {}
+    const far = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return
+        cancelLoadWait()
+        cancelLoadWait = afterPageLoad(() => setLoad(true))
+      },
+      { rootMargin: '300% 0px 300% 0px' },
+    )
     near.observe(root)
     far.observe(root)
     return () => {
       near.disconnect()
       far.disconnect()
+      cancelLoadWait()
     }
   }, [sequence, first])
 
@@ -155,7 +175,7 @@ export function Scene({ id, label, children, after, build, focusX = 0.5, endDim 
             frameEnd={timing.frameEnd}
             focusX={focusX}
             load={load}
-            active={active}
+            active={active && load}
             className="absolute inset-0 h-full w-full"
           />
         )}

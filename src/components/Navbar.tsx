@@ -1,25 +1,52 @@
 import { useEffect, useRef, useState } from 'react'
-import { Menu, X } from 'lucide-react'
-import { NAV } from '../data/site'
+import { Download, Menu, X } from 'lucide-react'
+import { NAV, SITE } from '../data/site'
+
+function ResumeButton({ className = '' }: { className?: string }) {
+  if (SITE.resume) {
+    return (
+      <a href={SITE.resume} download className={`nav-cta ${className}`}>
+        <Download className="h-4 w-4" aria-hidden="true" />
+        Baixar Currículo
+      </a>
+    )
+  }
+  // sem arquivo publicado: o botão fica visível, mas desativado (nenhum caminho é inventado)
+  return (
+    <button type="button" disabled title="Currículo em breve" className={`nav-cta ${className}`}>
+      <Download className="h-4 w-4" aria-hidden="true" />
+      Baixar Currículo
+      <span className="sr-only"> (em breve)</span>
+    </button>
+  )
+}
 
 export function Navbar() {
   const [active, setActive] = useState<string>('hero')
+  const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
   const menuBtn = useRef<HTMLButtonElement>(null)
+  const panel = useRef<HTMLDivElement>(null)
 
-  // Seção ativa = a última cujo topo já passou do centro da tela. As cenas se sobrepõem no crossfade,
-  // então um IntersectionObserver (que só avisa mudanças) deixaria o estado preso na seção anterior.
+  // Seção ativa = a que tem o topo mais baixo entre as que já passaram do centro da tela.
+  // O menu não segue a ordem da página, por isso a comparação é pela posição, não pela ordem do NAV.
+  // Só roda em resposta a eventos de scroll (1× por quadro, via rAF), nunca em loop.
   useEffect(() => {
     let raf = 0
     const update = () => {
       raf = 0
       const mid = window.innerHeight * 0.5
       let current: string = NAV[0].id
+      let best = -Infinity
       for (const { id } of NAV) {
-        const el = document.getElementById(id)
-        if (el && el.getBoundingClientRect().top <= mid) current = id
+        const top = document.getElementById(id)?.getBoundingClientRect().top
+        if (top !== undefined && top <= mid && top > best) {
+          best = top
+          current = id
+        }
       }
       setActive(current)
+      setScrolled(window.scrollY > 8)
     }
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(update)
@@ -34,69 +61,76 @@ export function Navbar() {
     }
   }, [])
 
+  // menu mobile: Esc fecha e devolve o foco; abrir move o foco para o primeiro link; fecha ao virar desktop
   useEffect(() => {
     if (!open) return
+    panel.current?.querySelector<HTMLElement>('a, button:not([disabled])')?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setOpen(false)
         menuBtn.current?.focus()
       }
     }
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const onMq = () => mq.matches && setOpen(false)
     window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
+    mq.addEventListener('change', onMq)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      mq.removeEventListener('change', onMq)
+    }
   }, [open])
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6">
-      <nav aria-label="Principal" className="glass mx-auto flex max-w-5xl items-center justify-between rounded-full py-2 pl-5 pr-2">
-        <a href="#hero" className="font-display text-lg font-semibold" aria-label="Gustavo Moura — início">
-          GM<span className="text-cyan">.</span>
+    <header className="site-nav fixed inset-x-0 top-0 z-50" data-scrolled={scrolled || open ? 'true' : undefined}>
+      <nav aria-label="Principal" className="mx-auto flex h-16 w-full max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-6 md:h-20 lg:px-10">
+        <a href="#hero" className="nav-logo font-grotesk" aria-label="Gustavo Moura — início">
+          GM<span className="text-lime" aria-hidden="true">•</span>
         </a>
-        <ul className="hidden items-center gap-1 md:flex">
+
+        <ul className="hidden items-center gap-1 lg:flex">
           {NAV.map(({ id, label }) => (
             <li key={id}>
-              <a
-                href={`#${id}`}
-                aria-current={active === id ? 'true' : undefined}
-                className="relative block rounded-full px-4 py-2 text-sm text-frost/60 transition-colors hover:text-frost aria-[current=true]:text-frost"
-              >
+              <a href={`#${id}`} aria-current={active === id ? 'location' : undefined} className="nav-link">
                 {label}
-                <span
-                  aria-hidden="true"
-                  className={`absolute inset-x-4 -bottom-0.5 h-px bg-gradient-to-r from-cyan to-violet transition-opacity duration-300 ${active === id ? 'opacity-100' : 'opacity-0'}`}
-                />
               </a>
             </li>
           ))}
         </ul>
-        <button
-          ref={menuBtn}
-          type="button"
-          className="grid h-11 w-11 place-items-center rounded-full md:hidden"
-          aria-expanded={open}
-          aria-controls="menu-mobile"
-          aria-label={open ? 'Fechar menu' : 'Abrir menu'}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+
+        <div className="flex items-center gap-2">
+          <ResumeButton className="hidden sm:inline-flex" />
+          <button
+            ref={menuBtn}
+            type="button"
+            className="nav-toggle lg:hidden"
+            aria-expanded={open}
+            aria-controls="menu-mobile"
+            aria-label={open ? 'Fechar menu' : 'Abrir menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X className="h-5 w-5" aria-hidden="true" /> : <Menu className="h-5 w-5" aria-hidden="true" />}
+          </button>
+        </div>
       </nav>
-      {open && (
-        <ul id="menu-mobile" className="glass mx-auto mt-2 max-w-5xl rounded-3xl p-2 md:hidden">
-          {NAV.map(({ id, label }) => (
+
+      <div ref={panel} id="menu-mobile" hidden={!open} className="nav-panel lg:hidden">
+        <ul className="mx-auto max-w-[90rem] px-4 pb-5 pt-2 sm:px-6">
+          {NAV.map(({ id, label }, i) => (
             <li key={id}>
-              <a
-                href={`#${id}`}
-                onClick={() => setOpen(false)}
-                aria-current={active === id ? 'true' : undefined}
-                className="flex min-h-12 items-center rounded-2xl px-4 text-base text-frost/70 aria-[current=true]:bg-white/10 aria-[current=true]:text-frost"
-              >
+              <a href={`#${id}`} onClick={() => setOpen(false)} aria-current={active === id ? 'location' : undefined} className="nav-panel-link font-grotesk">
+                <span className="nav-panel-index" aria-hidden="true">
+                  0{i + 1}
+                </span>
                 {label}
               </a>
             </li>
           ))}
+          <li className="mt-4 sm:hidden">
+            <ResumeButton className="w-full justify-center" />
+          </li>
         </ul>
-      )}
+      </div>
     </header>
   )
 }
