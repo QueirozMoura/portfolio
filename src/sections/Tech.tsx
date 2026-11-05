@@ -1,59 +1,122 @@
-import { Scene } from '../components/Scene'
-import { TechGlyph } from '../components/ui'
-import { TECH_GROUPS } from '../data/stack'
-import type { Timing } from '../config/scenes'
+import { TECH_GROUPS, type TechGroup } from '../data/stack'
 
-function build(tl: gsap.core.Timeline, t: Timing) {
-  const { at } = t
-  tl.fromTo('[data-fx="tech-head"]', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: at(0.5) }, at(0.1))
-  // um grupo por vez, alternando os lados enquanto a câmera atravessa o núcleo
-  // no mobile (coluna única) mantém a ordem natural; no desktop intercala esquerda/direita
-  const wide = window.matchMedia('(min-width: 1024px)').matches
-  const ORDER = wide ? [0, 3, 1, 4, 2, 5] : [0, 1, 2, 3, 4, 5]
-  ORDER.forEach((group, n) => {
-    const side = !wide ? 0 : group < 3 ? -1 : 1
-    tl.fromTo(`[data-fx="group-${group}"]`, { opacity: 0, x: side * 70, scale: 0.96 }, { opacity: 1, x: 0, scale: 1, duration: at(0.5) }, at(0.7 + n * 0.4))
-  })
-  tl.to('[data-fx="tech"]', { opacity: 0, y: -70, duration: at(0.9) }, at(t.tailStart - 0.2))
+/**
+ * Composição (desktop, 12 colunas): 7/5 na primeira linha, 4/8 na segunda — tamanhos diferentes e
+ * três formas de apresentar os itens (lista em grade, tipografia grande, tags), para os cards não se repetirem.
+ */
+type Variant = 'list' | 'large' | 'tags'
+const LAYOUT: Record<TechGroup['id'], { span: string; variant: Variant; wide?: boolean }> = {
+  front: { span: 'lg:col-span-7', variant: 'list', wide: true },
+  back: { span: 'lg:col-span-5', variant: 'list' },
+  data: { span: 'lg:col-span-4', variant: 'large' },
+  tools: { span: 'lg:col-span-8', variant: 'tags' },
 }
 
+const pad = (n: number) => String(n).padStart(2, '0')
+
+/** Símbolos geométricos de linha (SVG inline, ~300 bytes cada). `.tglyph-accent` se move no hover. */
+function Glyph({ id }: { id: TechGroup['id'] }) {
+  const common = { className: 'tglyph', viewBox: '0 0 48 48', fill: 'none', 'aria-hidden': true, focusable: false } as const
+  switch (id) {
+    case 'front':
+      return (
+        <svg {...common}>
+          <rect x="5.5" y="9.5" width="37" height="29" rx="2" stroke="currentColor" />
+          <path d="M5.5 16.5h37M12 24h14M12 29h9" stroke="currentColor" />
+          <rect className="tglyph-accent" x="30" y="23" width="7" height="7" fill="#C5F277" />
+        </svg>
+      )
+    case 'back':
+      return (
+        <svg {...common}>
+          <path d="M24 24 10 12M24 24l14-12M24 24v14" stroke="currentColor" />
+          <circle cx="10" cy="12" r="3.5" stroke="currentColor" />
+          <circle cx="38" cy="12" r="3.5" stroke="currentColor" />
+          <circle cx="24" cy="38" r="3.5" stroke="currentColor" />
+          <circle className="tglyph-accent" cx="24" cy="24" r="5" fill="#C5F277" />
+        </svg>
+      )
+    case 'data':
+      return (
+        <svg {...common}>
+          <path d="M9 12v24c0 3 6.7 5.5 15 5.5S39 39 39 36V12" stroke="currentColor" />
+          <path d="M9 20c0 3 6.7 5.5 15 5.5S39 23 39 20M9 28c0 3 6.7 5.5 15 5.5S39 31 39 28" stroke="currentColor" />
+          <ellipse className="tglyph-accent" cx="24" cy="12" rx="15" ry="5.5" stroke="#C5F277" strokeWidth="1.5" />
+        </svg>
+      )
+    case 'tools':
+      return (
+        <svg {...common}>
+          <rect x="7.5" y="7.5" width="14" height="14" stroke="currentColor" />
+          <rect x="26.5" y="26.5" width="14" height="14" stroke="currentColor" />
+          <rect x="7.5" y="26.5" width="14" height="14" stroke="currentColor" />
+          <rect className="tglyph-accent" x="26.5" y="7.5" width="14" height="14" fill="#C5F277" />
+        </svg>
+      )
+  }
+}
+
+function Card({ g, index }: { g: TechGroup; index: number }) {
+  const { span, variant, wide } = LAYOUT[g.id]
+  const titleId = `stack-${g.id}`
+  return (
+    <li className={`tcard-slot ${span}`}>
+      <article className={`tcard tcard-${variant} ${wide ? 'tcard-wide' : ''}`} aria-labelledby={titleId}>
+        <div className="tcard-head">
+          <p className="tcard-index" aria-hidden="true">
+            <span className="text-lime">{pad(index + 1)}</span> / {pad(TECH_GROUPS.length)}
+          </p>
+          <Glyph id={g.id} />
+        </div>
+        <h3 id={titleId} className="tcard-title font-grotesk">
+          {g.title}
+        </h3>
+        <p className="tcard-desc">{g.description}</p>
+        <ul className="tcard-items" aria-label={`Tecnologias de ${g.title}`}>
+          {g.items.map((item) => (
+            <li key={item} className={variant === 'large' ? 'font-grotesk' : undefined}>
+              {item}
+            </li>
+          ))}
+        </ul>
+      </article>
+    </li>
+  )
+}
+
+/**
+ * Seção estática (sem Scene, canvas, frames nem GSAP). Entrada por scroll-driven animation em CSS,
+ * só onde há suporte e sem prefers-reduced-motion; caso contrário o conteúdo já aparece.
+ */
 export function Tech() {
   return (
-    <Scene id="tecnologias" label="Tecnologias" build={build}>
-      <div className="pointer-events-none absolute inset-0 bg-ink/30" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_40%_at_50%_30%,rgb(3_3_8/0.6),transparent)]" />
-      <div className="scene-pad relative mx-auto flex h-full max-w-6xl flex-col justify-center px-6 pb-4 short:justify-start md:px-10">
-        <div data-fx="tech">
-          <div data-fx="tech-head" className="mx-auto max-w-2xl text-center">
-            <h2 className="font-display t-title font-semibold">Tecnologia com propósito.</h2>
-            <p className="t-body mx-auto mt-[1.2svh] max-w-md text-frost/75 short:hidden">
-              Do frontend à infraestrutura, conectando cada parte da solução.
+    <section id="tecnologias" aria-labelledby="tecnologias-title" className="tech relative isolate">
+      <div className="mx-auto w-full max-w-[90rem] px-4 pb-12 pt-4 sm:px-6 sm:pb-16 lg:px-10 lg:pb-20 lg:pt-6">
+        <header className="tech-in grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div className="lg:col-span-8">
+            <p className="tech-eyebrow">
+              <span className="text-lime">02</span>
+              <span className="tech-eyebrow-sep" aria-hidden="true">/</span>
+              Tecnologias
+            </p>
+            <h2 id="tecnologias-title" className="tech-title font-grotesk">
+              Ferramentas que transformam <span className="text-lime">ideias em produtos.</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-4 lg:pb-3">
+            <p className="tech-desc">
+              Do desenvolvimento de interfaces à construção de APIs e bancos de dados, utilizo tecnologias modernas para
+              criar aplicações completas.
             </p>
           </div>
-          <div className="mt-[2svh] grid gap-2 short:gap-1.5 sm:gap-3 short:landscape:grid-cols-2 lg:mt-[4svh] lg:grid-cols-[1fr_minmax(8rem,16rem)_1fr] lg:gap-x-6">
-            {[0, 1].map((col) => (
-              <div key={col} className={`grid content-start gap-2 short:gap-1.5 sm:gap-3 ${col === 1 ? 'lg:col-start-3' : 'lg:col-start-1'} lg:row-start-1`}>
-                {TECH_GROUPS.slice(col * 3, col * 3 + 3).map((g, k) => {
-                  const i = col * 3 + k
-                  return (
-                    <div key={g.title} data-fx={`group-${i}`} className="glass-dense rounded-2xl px-4 py-2.5 short:py-1 sm:py-3">
-                      <h3 className="text-sm font-medium text-frost short:text-[13px]">{g.title}</h3>
-                      <ul className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 short:mt-0.5 sm:gap-x-4 sm:gap-y-1">
-                        {g.items.map((t) => (
-                          <li key={t.name} className="flex items-center gap-1.5 text-xs text-frost/80 short:text-[11px] sm:text-[13px]">
-                            <TechGlyph icon={t.icon} className="h-3.5 w-3.5 shrink-0 text-cyan" />
-                            {t.name}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )
-                })}
-              </div>
-            ))}
-          </div>
-        </div>
+        </header>
+
+        <ul className="mt-12 grid gap-4 sm:mt-16 sm:gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-6">
+          {TECH_GROUPS.map((g, i) => (
+            <Card key={g.id} g={g} index={i} />
+          ))}
+        </ul>
       </div>
-    </Scene>
+    </section>
   )
 }

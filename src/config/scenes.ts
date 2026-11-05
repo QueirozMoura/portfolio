@@ -2,7 +2,7 @@
  * Ritmo da experiência — único lugar para ajustar durações.
  * Todas as medidas são em "alturas de viewport" (1 = uma tela de scroll).
  */
-export const SCENE_IDS = ['hero', 'tecnologias', 'contato'] as const
+export const SCENE_IDS = ['hero', 'contato'] as const
 export type SceneId = (typeof SCENE_IDS)[number]
 
 interface SceneConfig {
@@ -14,7 +14,6 @@ interface SceneConfig {
 
 export const SCENES: Record<SceneId, SceneConfig> = {
   hero: { scroll: 3.5, tail: true },
-  tecnologias: { scroll: 4.5, tail: true },
   contato: { scroll: 3.5, tail: false },
 }
 

@@ -1,6 +1,4 @@
 import { AboutGraphic } from '../components/AboutGraphic'
-import { CROSSFADE } from '../config/scenes'
-import { useMotion } from '../lib/motion-context'
 
 const FACTS = [
   { term: 'Formação', value: 'Análise e Desenvolvimento de Sistemas', note: 'UNIASSELVI' },
@@ -13,12 +11,8 @@ const FACTS = [
  * só onde há suporte e sem prefers-reduced-motion; caso contrário o conteúdo já aparece.
  */
 export function About() {
-  const { mode } = useMotion()
-  // Tecnologias (ainda uma cena) entra em crossfade sobre os últimos CROSSFADE×100svh desta seção:
-  // a faixa final é reservada e escurece até o tom das cenas, sem esconder conteúdo.
-  const tail = mode === 'sequence' ? `${CROSSFADE * 100}svh` : '0px'
   return (
-    <section id="sobre" aria-labelledby="sobre-title" className="about relative isolate overflow-clip" style={{ '--about-tail': tail } as React.CSSProperties}>
+    <section id="sobre" aria-labelledby="sobre-title" className="about relative isolate overflow-clip">
       <div className="about-inner mx-auto w-full max-w-[90rem] px-4 pt-24 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
         <header className="about-in">
           <p className="about-eyebrow">

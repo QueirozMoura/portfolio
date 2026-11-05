@@ -134,11 +134,10 @@ export function Projects() {
     <section
       id="projetos"
       aria-labelledby="projetos-title"
-      className={`projects relative isolate ${sequence ? 'projects-curtain' : 'pb-24 sm:pb-28'}`}
-      // Integração com as cenas vizinhas (só no modo animado):
-      // · sobe como uma cortina sobre os últimos CROSSFADE×100svh de Tecnologias, onde aquela cena já faria crossfade;
-      // · reserva os mesmos CROSSFADE×100svh no fim para o Contato entrar com crossfade sem cobrir nenhum card.
-      style={sequence ? { marginTop: `-${CROSSFADE * 100}svh`, paddingBottom: `calc(${CROSSFADE * 100}svh + 4rem)` } : undefined}
+      className={`projects relative isolate ${sequence ? 'projects-tail' : 'pb-24 sm:pb-28'}`}
+      // Contato (ainda uma cena, só no modo animado) entra em crossfade sobre os últimos CROSSFADE×100svh desta
+      // seção: essa faixa fica reservada no fim, sem cobrir nenhum card.
+      style={sequence ? { paddingBottom: `calc(${CROSSFADE * 100}svh + 4rem)` } : undefined}
     >
       <div className="mx-auto w-full max-w-[90rem] px-4 pt-20 sm:px-6 sm:pt-24 lg:px-10 lg:pt-32">
         <header className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
