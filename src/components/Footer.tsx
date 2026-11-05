@@ -1,9 +1,15 @@
+import { useSyncExternalStore } from 'react'
 import { ExtLink } from './ui'
 import { SITE } from '../data/site'
 
+const noSubscribe = () => () => {}
+const currentYear = () => new Date().getFullYear()
+/** O HTML pré-renderizado leva o ano do build; na hidratação o React usa esse valor e depois corrige, se mudou. */
+const buildYear = () => __BUILD_YEAR__
+
 /** Rodapé contínuo à seção Contato: identidade, local, links compactos e ano corrente. */
 export function Footer() {
-  const year = new Date().getFullYear()
+  const year = useSyncExternalStore(noSubscribe, currentYear, buildYear)
   return (
     <footer className="site-footer">
       <div className="mx-auto w-full max-w-[90rem] px-4 pb-[max(2rem,env(safe-area-inset-bottom))] sm:px-6 lg:px-10 lg:pb-10">

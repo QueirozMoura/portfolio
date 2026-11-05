@@ -10,14 +10,6 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 @font-face {
-  font-family: 'Sora';
-  font-style: normal;
-  font-weight: 100 800;
-  font-display: swap;
-  src: url('/fonts/sora-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-@font-face {
   font-family: 'Space Grotesk';
   font-style: normal;
   font-weight: 300 700;
@@ -26,23 +18,14 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* telas baixas (celular em paisagem, notebooks pequenos): conteúdo mais compacto */
-@custom-variant short (@media (max-height: 640px));
-
 @theme {
-  --color-ink: #030308;
-  --color-cyan: #00d9ff;
-  --color-electric: #2563eb;
-  --color-violet: #8b5cf6;
-  --color-frost: #f5f7ff;
-  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
-  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
-  /* redesign (navbar + hero) */
+  --color-ink: #030308; /* fundo do documento e base da Hero */
   --color-base: #101114;
   --color-surface: #1c1e23;
   --color-paper: #f4f3ee;
   --color-mute: #a1a3ab;
   --color-lime: #c5f277;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-grotesk: 'Space Grotesk', 'Space Grotesk Fallback', ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -57,9 +40,9 @@
 }
 
 html {
-  overflow-x: clip; /* chips animados no eixo X não geram rolagem horizontal */
+  overflow-x: clip; /* elementos decorativos deslocados no eixo X não geram rolagem horizontal */
   background: var(--color-ink);
-  color: var(--color-frost);
+  color: var(--color-paper);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -70,121 +53,14 @@ body {
   overflow-x: clip;
 }
 ::selection {
-  background: color-mix(in srgb, var(--color-cyan) 35%, transparent);
+  background: color-mix(in srgb, var(--color-lime) 35%, transparent);
 }
 
+/* foco visível em verde-lima em todo o site (fora de @layer: vence os utilitários) */
 :focus-visible {
-  outline: 2px solid var(--color-cyan);
+  outline: 2px solid var(--color-lime);
   outline-offset: 3px;
   border-radius: 6px;
-}
-
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.035em;
-}
-
-/* vidro líquido */
-.glass {
-  background: linear-gradient(160deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.025));
-  border: 1px solid rgb(255 255 255 / 0.12);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), 0 24px 60px -24px rgb(0 0 0 / 0.7);
-  -webkit-backdrop-filter: blur(18px) saturate(1.5);
-  backdrop-filter: blur(18px) saturate(1.5);
-}
-
-.scene-vignette {
-  background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgb(3 3 8 / 0.6) 100%);
-}
-
-/* legibilidade do texto sobre as cenas */
-section h1,
-section h2,
-section > div p {
-  text-shadow: 0 2px 28px rgb(3 3 8 / 0.85), 0 0 3px rgb(3 3 8 / 0.5);
-}
-/* foco em verde-lima nas seções redesenhadas (fora de @layer para vencer o :focus-visible global) */
-.site-nav :focus-visible,
-.hero :focus-visible,
-.about :focus-visible,
-.tech :focus-visible,
-.contact :focus-visible,
-.site-footer :focus-visible,
-.projects :focus-visible {
-  outline-color: var(--color-lime);
-}
-
-/* seções redesenhadas não ficam sobre vídeo: sem sombra. Precisa ficar fora de @layer,
-   senão a regra acima (sem camada) vence independentemente da especificidade. */
-.hero h1,
-.hero p,
-.about h2,
-.about p,
-.tech h2,
-.tech h3,
-.tech p,
-.contact h2,
-.contact p,
-.projects h2,
-.projects h3,
-.projects p {
-  text-shadow: none;
-}
-
-/* escala tipográfica fluida: limitada por largura E altura da viewport, para o bloco nunca estourar a tela */
-.t-title {
-  font-size: clamp(1.75rem, min(7.5vw, 4.8svh + 0.75rem), 3.75rem);
-  line-height: 1.05;
-  text-wrap: balance;
-}
-.t-title-lg {
-  font-size: clamp(2rem, min(9vw, 6svh + 0.5rem), 4.5rem);
-  line-height: 1;
-  text-wrap: balance;
-}
-.t-body {
-  font-size: clamp(0.875rem, 0.55rem + 0.9svh, 1.125rem);
-  line-height: 1.6;
-  text-wrap: pretty;
-}
-
-/* painel de vidro mais denso, para texto sobre trechos claros da animação */
-/* área segura sob a navbar fixa */
-.scene-pad {
-  padding-top: 5.25rem;
-}
-
-/* telas baixas: texto corrido um pouco menor para o conteúdo caber sob a navbar */
-@media (max-height: 640px) {
-  .scene-pad {
-    padding-top: 5rem;
-  }
-  .t-body {
-    font-size: 0.8125rem;
-    line-height: 1.5;
-  }
-  .t-title {
-    font-size: clamp(1.5rem, min(7vw, 4.8svh + 0.5rem), 2.5rem);
-  }
-}
-
-/* ───────── desempenho no celular ─────────
-   backdrop-filter sobre um canvas que muda a cada quadro é o acabamento mais caro da GPU móvel.
-   Os painéis densos já são quase opacos: trocam o desfoque por fundo sólido equivalente.
-   A navbar e os botões mantêm um desfoque leve. Desktop e tablet não mudam. */
-@media (max-width: 767px) {
-  .glass {
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-  }
-}
-/* modo lite (governador de desempenho): o aparelho não sustentou a fluidez */
-:root[data-perf='lite'] .glass {
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-}
-:root[data-perf='lite'] .glass {
-  background: linear-gradient(160deg, rgb(20 26 52 / 0.72), rgb(10 13 32 / 0.66));
 }
 
 @layer components {

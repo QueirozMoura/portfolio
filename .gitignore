@@ -17,8 +17,10 @@ Thumbs.db
 .idea
 .vscode
 
-# mídia-fonte (vídeos e imagens geradas por IA, na raiz): não é necessária para rodar o site.
-# O site usa apenas public/frames, public/posters e public/og.jpg, já gerados.
+# build temporário da pré-renderização (scripts/prerender.mjs)
+.prerender
+
+# mídia solta na raiz (vídeos e imagens de rascunho): não faz parte do site
 /*.mp4
 /*.jpg
 

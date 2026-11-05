@@ -1,70 +1,87 @@
 # Portfólio — Gustavo Moura
 
-Portfólio pessoal de **Gustavo Moura**, desenvolvedor Full Stack em São Paulo. A experiência é uma narrativa cinematográfica de cinco cenas 3D em vidro líquido (Hero, Sobre, Tecnologias, Projetos e Contato), controladas pelo scroll.
+Portfólio pessoal de **Gustavo Moura**, desenvolvedor Full Stack em São Paulo. Página única, editorial e escura, com cinco seções — Início, Sobre, Tecnologias, Projetos e Contato — construídas só com HTML, CSS e SVG inline, pré-renderizadas no build e hidratadas pelo React.
 
 Site: <https://gustavomoura.dev> · GitHub: [@QueirozMoura](https://github.com/QueirozMoura) · [LinkedIn](https://www.linkedin.com/in/gustavomoura-/)
 
 ## Stack
 
-React 19 · TypeScript · Vite · Tailwind CSS 4 · GSAP + ScrollTrigger · Lucide React · simple-icons (ícones das tecnologias, importados individualmente).
+- **React 19** + **TypeScript** — componentes e hidratação do HTML pré-renderizado
+- **Vite 8** — dev server e build
+- **Tailwind CSS 4** — utilitários de layout; o visual de cada seção fica em `src/styles/index.css` (`@layer components`)
+- **lucide-react** (ícones de interface) e **simple-icons** (ícone do GitHub), importados individualmente
+- Fontes auto-hospedadas: **Space Grotesk** (títulos) e **Inter** (texto), subconjunto latin, eixo de peso variável
 
-## Como funciona
+Não há bibliotecas de animação: as entradas são animações CSS (`opacity`/`transform`) e, onde o navegador suporta, *scroll-driven animations* (`animation-timeline: view()`), executadas pelo compositor.
 
-- **Cenas scroll-driven:** cada seção é um vídeo convertido em sequência de frames WebP, desenhada em um `<canvas>` 2D. O frame exibido depende do progresso do scroll (sem `<video>` nem autoplay).
-- **Pinning com `position: sticky`:** cada cena fica fixa durante o percurso e a próxima sobe sobre os últimos instantes da anterior, formando um **crossfade** real entre dois canvases.
-- **Uma única suavização:** o ScrollTrigger só informa o alvo; um ticker do GSAP interpola o progresso e alimenta ao mesmo tempo os textos (timeline) e o frame do canvas.
-- **Carregamento inteligente:** o hero carrega primeiro; as demais cenas começam por um esboço (1 a cada 4 frames) e completam quando ficam perto da tela. Os frames decodificados ficam num cache LRU limitado por bytes e são liberados quando a cena sai do viewport. Os posters cobrem qualquer espera.
-- **Qualidade:** frames em resolução nativa (1920×1080) para desktop e tablet deitado. Celular em pé usa um recorte retrato 450×800 (só a região que o `cover` mostraria, ~1/3 dos pixels), tablet em pé usa o mesmo recorte em 608×1080 nativos, e celular deitado ou aparelho com pouca memória usa 1280×720. O perfil muda se o aparelho girar.
-- **Desempenho móvel:** limites de memória, downloads e decodificações simultâneas por perfil; janela de decodificação direcional; repintura do canvas a ~30 Hz; download obsoleto cancelado ao sair da cena. Um governador (`lib/perf.ts`) mede os quadros durante a rolagem e, se o aparelho não sustentar ~24 fps, entra no modo *lite* (sem mistura entre frames, sem `backdrop-filter`). `prefers-reduced-motion`, economia de dados, conexão 2G e pouca memória/CPU usam o modo estático com posters.
-- **Acessibilidade e fallback:** com `prefers-reduced-motion`, economia de dados ou aparelhos fracos, o site mostra os posters estáticos, sem as faixas longas de scroll. Há skip link, foco visível, menu mobile acessível e links externos com `rel="noopener noreferrer"`.
+## Estrutura
 
-## Rodando localmente
+```
+index.html                 metadados (SEO, Open Graph, Twitter, JSON-LD) e preload das fontes
+src/
+  main.tsx                 entrada do cliente: hidrata o HTML pré-renderizado (createRoot no dev)
+  entry-server.tsx         entrada do build de pré-renderização (renderToString)
+  App.tsx                  composição da página
+  sections/                Hero, About, Tech, Projects, Contact
+  components/              Navbar, Footer, ProgressBar, HeroRibbon, AboutGraphic, ui (ícones, link externo)
+  data/                    site.ts (nome, links, e-mail, currículo), projects.ts, stack.tsx
+  styles/index.css         tokens de cor/fonte (@theme) e estilos das seções
+public/
+  projects/                screenshots dos projetos (AVIF 640/960/1440 + WebP 800/1440 de fallback)
+  fonts/                   woff2 auto-hospedados
+  og.jpg, apple-touch-icon.png, favicon.svg, robots.txt, sitemap.xml, CNAME
+scripts/
+  prerender.mjs            pré-renderiza a página em dist/index.html
+  optimize-projects.mjs    gera as versões AVIF dos screenshots
+  social-images.mjs        gera og.jpg e apple-touch-icon.png
+```
+
+## Desenvolvimento
 
 Requer Node.js 20.19+ (ou 22.12+).
 
 ```bash
 npm install
-npm run dev        # servidor de desenvolvimento
-npm run build      # typecheck + build de produção em dist/
-npm run preview    # serve o build localmente
+npm run dev        # servidor de desenvolvimento (renderização só no cliente)
 npm run lint
+npm run build      # typecheck + build + pré-renderização em dist/
+npm run preview    # serve dist/ localmente
 ```
 
-## Estrutura
+### Build e pré-renderização
 
-```
-src/
-  config/scenes.ts      duração de cada cena, crossfade, suavização (único lugar para ajustar o ritmo)
-  components/           Scene, ScrollSequence, Navbar, ProgressBar, Footer, ui
-  sections/             Hero, About, Tech, Projects, Contact
-  lib/                  frameSequence (loader + cache), capabilities, gsap, motion-context
-  data/                 projetos, stack e dados do site
-  generated/frames.json manifest gerado pelo pipeline de mídia
-public/
-  frames/<cena>/{d,t,m,p}/  sequências WebP (d = 1920×1080, t = 1280×720, m = 450×800 retrato, p = 608×1080 retrato)
-  posters/              imagens estáticas de cada cena
-scripts/extract-frames.mjs
-```
+`npm run build` executa `tsc -b`, `vite build` e `node scripts/prerender.mjs`. O script compila `src/entry-server.tsx` para Node com o próprio Vite (build SSR temporário em `.prerender/`, removido ao final), renderiza `<App />` com `react-dom/server` e injeta o HTML dentro de `<div id="root">` em `dist/index.html`. No navegador, `main.tsx` usa `hydrateRoot`: o DOM do servidor é reaproveitado, sem renderização duplicada.
 
-## Pipeline de mídia
+Para a hidratação continuar sem divergências, a renderização precisa ser determinística: nada de `window`, `Date`, `Math.random` etc. durante o render. O único valor variável — o ano do rodapé — vem do build (`__BUILD_YEAR__`, em `vite.config.ts`) e é corrigido após hidratar via `useSyncExternalStore`, se o ano mudou.
 
-Os frames já estão versionados em `public/frames`, então o site roda sem os vídeos. Os vídeos e imagens originais (gerados com IA) **não** fazem parte do repositório. Para regenerar os frames, coloque os vídeos 1080p na raiz do projeto e rode:
+### Imagens
 
 ```bash
-npm run frames                 # QUALITY_D=90 npm run frames para ajustar a qualidade
-PROFILES=m,p npm run frames    # regenera só os perfis retrato, sem tocar nos demais
+npm run projects:images     # public/projects/<base>-1440.webp → <base>-{640,960,1440}.avif (CRF=32 ajusta a qualidade)
+npm run social:images       # public/og.jpg (1200×630) e apple-touch-icon.png (180×180); rode depois do build
 ```
 
-O script usa `ffmpeg-static`, não faz upscale e atualiza `src/generated/frames.json`.
+Os dois usam o `ffmpeg-static` do projeto. `social:images` também usa o Chrome/Chromium instalado no sistema (modo headless; `CHROME_PATH=/caminho/do/chrome` se ele não estiver no PATH) e reaproveita a fita SVG da Hero a partir do HTML pré-renderizado.
 
-## Ajustes rápidos
-
-- **Ritmo do scroll:** `src/config/scenes.ts` (distância de cada cena em alturas de viewport).
-- **E-mail de contato:** definido em `email` em `src/data/site.ts` (vazio oculta o botão no Contato).
-- **Projetos e tecnologias:** `src/data/projects.ts` e `src/data/stack.tsx`.
+Para adicionar um projeto: salve o screenshot como `public/projects/<base>-1440.webp` (e `-800.webp`), rode `npm run projects:images` e registre o projeto em `src/data/projects.ts`.
 
 ## Deploy
 
-Publicado no **GitHub Pages** em <https://gustavomoura.dev> por um workflow (`.github/workflows/deploy.yml`) que roda lint e build a cada push na `main`. O domínio é definido por `public/CNAME`.
+Publicado no **GitHub Pages** em <https://gustavomoura.dev> pelo workflow `.github/workflows/deploy.yml`, que roda `npm ci`, `npm run lint` e `npm run build` a cada push na `main` e publica `dist/`. O domínio é definido em `public/CNAME`.
+
+## Decisões de desempenho
+
+- **HTML pré-renderizado**: o conteúdo aparece sem esperar o JavaScript; o JS só hidrata a página (interatividade da navbar, menu mobile e barra de progresso). Links com âncora (`/#projetos`) funcionam ao abrir direto, e a página é legível sem JS.
+- **Sem bibliotecas de animação** nem canvas/vídeo: animações CSS de `opacity`/`transform`, sem loops; `prefers-reduced-motion` desliga todas.
+- **Imagens responsivas**: AVIF com `srcset`/`sizes` e fallback WebP, `loading="lazy"`, dimensões explícitas (sem layout shift). Nenhuma imagem na primeira dobra — a arte da Hero é um SVG inline.
+- **Fontes**: woff2 auto-hospedados e pré-carregados, `font-display: swap` e um fallback com métricas ajustadas para a Space Grotesk.
+- **CSS externo** (≈ 8 KB gzip): inlinar foi testado e melhorou o FCP, mas atrasou o LCP no Lighthouse mobile (o HTML maior disputa banda com a fonte do logo), então ficou externo.
+- **Listeners** de scroll passivos e agrupados por `requestAnimationFrame`; a barra de progresso usa `transform`.
+
+## Configuração rápida
+
+- **E-mail de contato**: `email` em `src/data/site.ts` (vazio oculta o botão de e-mail).
+- **Currículo**: coloque o PDF em `public/` e defina `resume` em `src/data/site.ts` (ex.: `'/curriculo-gustavo-moura.pdf'`). Vazio mantém o botão "Baixar Currículo" visível e desativado.
+- **Projetos e tecnologias**: `src/data/projects.ts` e `src/data/stack.tsx`.
 
 © 2026 Gustavo Moura
