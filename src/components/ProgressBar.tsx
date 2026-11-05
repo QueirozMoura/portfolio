@@ -25,7 +25,7 @@ export function ProgressBar() {
   }, [])
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px]">
-      <div ref={ref} className="h-full origin-left bg-lime" style={{ transform: 'scaleX(0)' }} />
+      <div ref={ref} className="h-full origin-left bg-accent" style={{ transform: 'scaleX(0)' }} />
     </div>
   )
 }

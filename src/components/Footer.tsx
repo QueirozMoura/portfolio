@@ -16,7 +16,7 @@ export function Footer() {
         <div className="footer-inner grid gap-8 pt-8 md:grid-cols-[1fr_auto] md:items-end">
           <div className="flex items-center gap-4">
             <a href="#hero" className="footer-logo font-grotesk" aria-label="Gustavo Moura — voltar ao início">
-              GM<span className="text-lime" aria-hidden="true">•</span>
+              GM<span className="text-glow" aria-hidden="true">•</span>
             </a>
             <p className="footer-id">
               <span className="text-paper">{SITE.name}</span>

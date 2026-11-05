@@ -19,12 +19,15 @@
 }
 
 @theme {
-  --color-ink: #030308; /* fundo do documento e base da Hero */
-  --color-base: #101114;
-  --color-surface: #1c1e23;
-  --color-paper: #f4f3ee;
-  --color-mute: #a1a3ab;
-  --color-lime: #c5f277;
+  /* Midnight Blue Dark: preto predominante, azul-meia-noite só em superfícies e detalhes */
+  --color-ink: #04060b; /* sombra mais profunda; texto sobre os preenchimentos azuis (contraste ≥ 4,5:1) */
+  --color-base: #080b12; /* fundo principal */
+  --color-night: #0d1526; /* fundo secundário */
+  --color-surface: #111b30; /* cards */
+  --color-paper: #e8f0ff; /* texto principal */
+  --color-mute: #a8b7cf; /* texto secundário */
+  --color-accent: #4878c8; /* azul de destaque: preenchimentos, linhas, marcadores */
+  --color-glow: #6496e8; /* hover, detalhes luminosos e texto azul (6,6:1 sobre o fundo) */
   --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
   --font-grotesk: 'Space Grotesk', 'Space Grotesk Fallback', ui-sans-serif, system-ui, sans-serif;
 }
@@ -41,7 +44,7 @@
 
 html {
   overflow-x: clip; /* elementos decorativos deslocados no eixo X não geram rolagem horizontal */
-  background: var(--color-ink);
+  background: var(--color-base);
   color: var(--color-paper);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
@@ -49,16 +52,16 @@ html {
 }
 body {
   margin: 0;
-  background: var(--color-ink);
+  background: var(--color-base);
   overflow-x: clip;
 }
 ::selection {
-  background: color-mix(in srgb, var(--color-lime) 35%, transparent);
+  background: color-mix(in srgb, var(--color-accent) 45%, transparent);
 }
 
-/* foco visível em verde-lima em todo o site (fora de @layer: vence os utilitários) */
+/* foco visível em azul em todo o site (fora de @layer: vence os utilitários) */
 :focus-visible {
-  outline: 2px solid var(--color-lime);
+  outline: 2px solid var(--color-glow);
   outline-offset: 3px;
   border-radius: 6px;
 }
@@ -68,14 +71,14 @@ body {
    Tudo aqui anima só opacity/transform/cor; nada roda em loop; sem backdrop-filter nem filter: blur. */
 
 
-/* navbar: transparente no topo; ao rolar, fundo sólido quase opaco (sem desfoque) */
+/* navbar: transparente no topo; ao rolar, fundo sólido (screenshots claros dos projetos não vazam por trás) e linha fina */
 .site-nav {
   border-bottom: 1px solid transparent;
   transition: background-color 300ms ease, border-color 300ms ease;
 }
 .site-nav[data-scrolled] {
-  background: rgb(16 17 20 / 0.94);
-  border-bottom-color: rgb(244 243 238 / 0.07);
+  background: var(--color-base);
+  border-bottom-color: rgb(148 167 199 / 0.1);
 }
 .nav-logo {
   font-size: 1.375rem;
@@ -99,7 +102,7 @@ body {
   right: 0.9rem;
   bottom: 0.2rem;
   height: 1px;
-  background: var(--color-lime);
+  background: var(--color-accent);
   transform: scaleX(0);
   transform-origin: right;
   transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -119,7 +122,7 @@ body {
   align-items: center;
   gap: 0.5rem;
   border-radius: 9999px;
-  border: 1px solid rgb(244 243 238 / 0.2);
+  border: 1px solid rgb(148 167 199 / 0.28);
   padding: 0 1.15rem;
   font-size: 0.875rem;
   font-weight: 500;
@@ -128,9 +131,9 @@ body {
   transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease, transform 200ms ease;
 }
 .nav-cta:not(:disabled):hover {
-  background: var(--color-lime);
-  border-color: var(--color-lime);
-  color: var(--color-base);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-ink);
 }
 .nav-cta:not(:disabled):active {
   transform: scale(0.97);
@@ -145,7 +148,7 @@ body {
   width: 2.75rem;
   place-items: center;
   border-radius: 9999px;
-  border: 1px solid rgb(244 243 238 / 0.16);
+  border: 1px solid rgb(148 167 199 / 0.22);
   color: var(--color-paper);
 }
 @media (min-width: 1024px) {
@@ -155,7 +158,7 @@ body {
 }
 .nav-panel {
   background: var(--color-base);
-  border-bottom: 1px solid rgb(244 243 238 / 0.08);
+  border-bottom: 1px solid rgb(148 167 199 / 0.11);
   max-height: calc(100svh - 4rem);
   overflow-y: auto;
 }
@@ -164,14 +167,14 @@ body {
   min-height: 3.5rem;
   align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid rgb(244 243 238 / 0.07);
+  border-bottom: 1px solid rgb(148 167 199 / 0.1);
   font-size: 1.5rem;
   font-weight: 500;
   letter-spacing: -0.03em;
   color: var(--color-paper);
 }
 .nav-panel-link[aria-current] {
-  color: var(--color-lime);
+  color: var(--color-glow);
 }
 .nav-panel-index {
   font-family: var(--font-sans);
@@ -181,9 +184,9 @@ body {
 }
 
 .hero-backdrop {
-  /* luz verde difusa à direita + leve escurecimento na base, fundindo com a seção seguinte */
+  /* luz azul difusa à direita + leve escurecimento na base, fundindo com a seção seguinte */
   background:
-    radial-gradient(55% 45% at 78% 38%, rgb(197 242 119 / 0.07), transparent 70%),
+    radial-gradient(55% 45% at 78% 38%, rgb(72 120 200 / 0.11), transparent 70%),
     linear-gradient(to bottom, transparent 70%, var(--color-ink));
 }
 .hero-backdrop::before {
@@ -191,7 +194,7 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgb(244 243 238 / 0.07) 1px, transparent 1.2px);
+  background-image: radial-gradient(rgb(148 167 199 / 0.1) 1px, transparent 1.2px);
   background-size: 28px 28px;
   -webkit-mask-image: radial-gradient(70% 60% at 70% 40%, #000, transparent 75%);
   mask-image: radial-gradient(70% 60% at 70% 40%, #000, transparent 75%);
@@ -203,14 +206,14 @@ body {
   width: min(125vw, 40rem);
   height: auto;
   aspect-ratio: 1;
-  opacity: 0.5;
+  opacity: 0.62; /* o azul tem menos luminância que o antigo verde-lima: opacidade um pouco maior para a mesma presença */
   animation: hero-ribbon-in 1600ms cubic-bezier(0.2, 0.7, 0.2, 1) 120ms both;
 }
 @media (min-width: 640px) {
   .hero-ribbon {
     right: -18%;
     width: min(80vw, 40rem);
-    opacity: 0.6;
+    opacity: 0.7;
   }
 }
 @media (min-width: 1024px) {
@@ -255,7 +258,7 @@ body {
   display: block;
   width: 2rem;
   height: 1px;
-  background: var(--color-lime);
+  background: var(--color-accent);
 }
 .hero-name {
   font-size: clamp(3.25rem, min(14vw, 12.5svh), 9rem);
@@ -286,7 +289,7 @@ body {
   text-wrap: pretty;
 }
 
-.btn-lime,
+.btn-primary,
 .btn-outline {
   display: inline-flex;
   min-height: 3rem;
@@ -302,35 +305,35 @@ body {
   transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, transform 220ms ease;
 }
 @media (min-width: 640px) {
-  .btn-lime,
+  .btn-primary,
   .btn-outline {
     flex: none;
     min-height: 3.25rem;
     padding: 0 1.75rem;
   }
 }
-.btn-lime {
-  background: var(--color-lime);
-  color: var(--color-base);
+.btn-primary {
+  background: var(--color-accent);
+  color: var(--color-ink);
 }
-.btn-lime:hover {
-  background: #d6f99b;
+.btn-primary:hover {
+  background: var(--color-glow);
 }
 .btn-arrow {
   transition: transform 220ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.btn-lime:hover .btn-arrow {
+.btn-primary:hover .btn-arrow {
   transform: translateX(4px);
 }
 .btn-outline {
-  border: 1px solid rgb(244 243 238 / 0.22);
+  border: 1px solid rgb(148 167 199 / 0.31);
   color: var(--color-paper);
 }
 .btn-outline:hover {
-  border-color: var(--color-lime);
-  color: var(--color-lime);
+  border-color: var(--color-glow);
+  color: var(--color-glow);
 }
-.btn-lime:active,
+.btn-primary:active,
 .btn-outline:active {
   transform: scale(0.97);
 }
@@ -340,7 +343,7 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75rem;
-  border-top: 1px solid rgb(244 243 238 / 0.1);
+  border-top: 1px solid rgb(148 167 199 / 0.14);
   padding-top: 1.25rem;
 }
 .hero-stat {
@@ -369,7 +372,7 @@ body {
     padding-top: 0;
   }
   .hero-stat {
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
     padding: 1rem 0;
   }
   .hero-stat-value {
@@ -385,8 +388,8 @@ body {
   .hero-ribbon {
     animation: none;
   }
-  .btn-lime:hover .btn-arrow,
-  .btn-lime:active,
+  .btn-primary:hover .btn-arrow,
+  .btn-primary:active,
   .btn-outline:active,
   .nav-cta:active {
     transform: none;
@@ -414,10 +417,10 @@ body {
     display: block;
     width: 2rem;
     height: 1px;
-    background: var(--color-lime);
+    background: var(--color-accent);
   }
   .projects-eyebrow-sep {
-    color: var(--color-lime);
+    color: var(--color-glow);
   }
   .projects-title {
     margin-top: 1.25rem;
@@ -456,7 +459,7 @@ body {
     flex-direction: column;
     overflow: hidden;
     border-radius: 1.25rem;
-    border: 1px solid rgb(244 243 238 / 0.08);
+    border: 1px solid rgb(148 167 199 / 0.11);
     background: var(--color-surface);
     transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 300ms ease;
   }
@@ -465,8 +468,8 @@ body {
     display: block;
     aspect-ratio: 16 / 9;
     overflow: hidden;
-    background: #15171b;
-    border-bottom: 1px solid rgb(244 243 238 / 0.06);
+    background: var(--color-night);
+    border-bottom: 1px solid rgb(148 167 199 / 0.08);
   }
   .pcard-img {
     display: block;
@@ -481,12 +484,12 @@ body {
     height: 100%;
     place-items: center;
     background:
-      radial-gradient(rgb(244 243 238 / 0.08) 1px, transparent 1.2px) 0 0 / 22px 22px,
-      radial-gradient(60% 60% at 70% 30%, rgb(197 242 119 / 0.12), transparent 70%);
+      radial-gradient(rgb(148 167 199 / 0.11) 1px, transparent 1.2px) 0 0 / 22px 22px,
+      radial-gradient(60% 60% at 70% 30%, rgb(72 120 200 / 0.19), transparent 70%);
     font-size: clamp(1.5rem, 4vw, 2.5rem);
     font-weight: 700;
     letter-spacing: -0.04em;
-    color: rgb(244 243 238 / 0.35);
+    color: rgb(232 240 255 / 0.35);
   }
   .pcard-body {
     display: flex;
@@ -526,7 +529,7 @@ body {
     gap: 0.5rem;
     font-size: 0.875rem;
     line-height: 1.45;
-    color: rgb(244 243 238 / 0.82);
+    color: rgb(232 240 255 / 0.82);
   }
   .pcard-highlights li {
     position: relative;
@@ -540,7 +543,7 @@ body {
     width: 0.4rem;
     height: 0.4rem;
     border-radius: 9999px;
-    background: var(--color-lime);
+    background: var(--color-accent);
   }
   .pcard-stack {
     margin-top: 1.25rem;
@@ -550,11 +553,11 @@ body {
   }
   .pcard-stack li {
     border-radius: 9999px;
-    border: 1px solid rgb(244 243 238 / 0.1);
+    border: 1px solid rgb(148 167 199 / 0.14);
     padding: 0.25rem 0.65rem;
     font-size: 0.75rem;
     line-height: 1.4;
-    color: rgb(244 243 238 / 0.78);
+    color: rgb(232 240 255 / 0.78);
   }
   .pcard-links {
     margin-top: auto;
@@ -574,7 +577,7 @@ body {
       aspect-ratio: auto;
       min-height: 100%;
       border-bottom: 0;
-      border-right: 1px solid rgb(244 243 238 / 0.06);
+      border-right: 1px solid rgb(148 167 199 / 0.08);
     }
     .pcard-feature .pcard-img {
       position: absolute;
@@ -597,7 +600,7 @@ body {
     .pcard-flip .pcard-media {
       order: 2;
       border-right: 0;
-      border-left: 1px solid rgb(244 243 238 / 0.06);
+      border-left: 1px solid rgb(148 167 199 / 0.08);
     }
   }
 
@@ -615,19 +618,19 @@ body {
     transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
   }
   .plink-demo {
-    background: var(--color-lime);
-    color: var(--color-base);
+    background: var(--color-accent);
+    color: var(--color-ink);
   }
   .plink-demo:hover {
-    background: #d6f99b;
+    background: var(--color-glow);
   }
   .plink-code {
-    border: 1px solid rgb(244 243 238 / 0.18);
+    border: 1px solid rgb(148 167 199 / 0.25);
     color: var(--color-paper);
   }
   .plink-code:hover {
-    border-color: var(--color-lime);
-    color: var(--color-lime);
+    border-color: var(--color-glow);
+    color: var(--color-glow);
   }
   .plink-arrow {
     transition: transform 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -644,7 +647,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 1rem 2rem;
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
     padding-top: 1.75rem;
     color: var(--color-mute);
   }
@@ -654,24 +657,24 @@ body {
     }
   }
 
-  /* hover (só mouse): elevação, borda lima discreta e zoom leve no screenshot */
+  /* hover (só mouse): elevação, borda azul discreta e zoom leve no screenshot */
   @media (hover: hover) and (pointer: fine) {
     .pcard:hover {
       transform: translateY(-6px);
-      border-color: rgb(197 242 119 / 0.35);
+      border-color: rgb(100 150 232 / 0.35);
     }
     .pcard:hover .pcard-img {
       transform: scale(1.025);
     }
     .pcard:hover .pcard-title {
-      color: var(--color-lime);
+      color: var(--color-glow);
     }
     .pcard-title {
       transition: color 250ms ease;
     }
   }
   .pcard:focus-within {
-    border-color: rgb(197 242 119 / 0.35);
+    border-color: rgb(100 150 232 / 0.35);
   }
 
   /* entrada: animação ligada ao scroll, executada pelo compositor (sem JS, sem listeners).
@@ -741,7 +744,7 @@ body {
     color: var(--color-mute);
   }
   .about-eyebrow-sep {
-    color: rgb(244 243 238 / 0.3);
+    color: rgb(232 240 255 / 0.3);
   }
   .about-title {
     margin-top: 1.25rem;
@@ -831,17 +834,17 @@ body {
   .about-fact {
     position: relative;
     padding: 1.1rem 0 1.25rem;
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
   }
   .about-fact::before {
-    /* microinteração: a linha superior acende em verde-lima no hover */
+    /* microinteração: a linha superior acende em azul no hover */
     content: '';
     position: absolute;
     left: 0;
     right: 0;
     top: -1px;
     height: 1px;
-    background: var(--color-lime);
+    background: var(--color-accent);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -897,7 +900,7 @@ body {
     color: var(--color-mute);
   }
   .tech-eyebrow-sep {
-    color: rgb(244 243 238 / 0.3);
+    color: rgb(232 240 255 / 0.3);
   }
   .tech-title {
     margin-top: 1.25rem;
@@ -926,7 +929,7 @@ body {
     flex-direction: column;
     overflow: hidden;
     border-radius: 1.25rem;
-    border: 1px solid rgb(244 243 238 / 0.08);
+    border: 1px solid rgb(148 167 199 / 0.11);
     background: var(--color-surface);
     padding: 1.25rem 1.25rem 1.5rem;
     transition: border-color 250ms ease;
@@ -951,8 +954,8 @@ body {
     height: 9rem;
     pointer-events: none;
     background-image:
-      linear-gradient(rgb(244 243 238 / 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgb(244 243 238 / 0.05) 1px, transparent 1px);
+      linear-gradient(rgb(148 167 199 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(148 167 199 / 0.07) 1px, transparent 1px);
     background-size: 24px 24px;
     -webkit-mask-image: radial-gradient(100% 100% at 100% 0%, #000, transparent 70%);
     mask-image: radial-gradient(100% 100% at 100% 0%, #000, transparent 70%);
@@ -974,7 +977,7 @@ body {
     width: 2.5rem;
     height: 2.5rem;
     flex: none;
-    color: rgb(244 243 238 / 0.55);
+    color: rgb(232 240 255 / 0.55);
     stroke-width: 1.25;
   }
   @media (min-width: 1024px) {
@@ -1011,7 +1014,7 @@ body {
     padding-top: 1.75rem;
   }
 
-  /* variante "list": itens tipográficos em grade, com linha fina e marcador verde-lima */
+  /* variante "list": itens tipográficos em grade, com linha fina e marcador azul */
   .tcard-list .tcard-items {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1027,17 +1030,17 @@ body {
     align-items: center;
     gap: 0.6rem;
     min-width: 0;
-    border-top: 1px solid rgb(244 243 238 / 0.08);
+    border-top: 1px solid rgb(148 167 199 / 0.11);
     padding: 0.7rem 0;
     font-size: 0.9375rem;
-    color: rgb(244 243 238 / 0.9);
+    color: rgb(232 240 255 / 0.9);
   }
   .tcard-list .tcard-items li::before {
     content: '';
     width: 0.35rem;
     height: 0.35rem;
     flex: none;
-    background: var(--color-lime);
+    background: var(--color-accent);
   }
 
   /* variante "large": poucos itens, em tipografia grande */
@@ -1053,7 +1056,7 @@ body {
     color: var(--color-paper);
   }
   .tcard-large .tcard-items li:first-child {
-    color: var(--color-lime);
+    color: var(--color-glow);
   }
 
   /* variante "tags": itens como etiquetas de borda fina */
@@ -1064,25 +1067,25 @@ body {
   }
   .tcard-tags .tcard-items li {
     border-radius: 9999px;
-    border: 1px solid rgb(244 243 238 / 0.14);
+    border: 1px solid rgb(148 167 199 / 0.2);
     padding: 0.45rem 0.95rem;
     font-size: 0.875rem;
     line-height: 1.3;
-    color: rgb(244 243 238 / 0.9);
+    color: rgb(232 240 255 / 0.9);
     transition: border-color 200ms ease, color 200ms ease;
   }
 
-  /* hover (só mouse): borda verde-lima discreta e pequeno movimento no símbolo */
+  /* hover (só mouse): borda azul discreta e pequeno movimento no símbolo */
   @media (hover: hover) and (pointer: fine) {
     .tcard:hover {
-      border-color: rgb(197 242 119 / 0.35);
+      border-color: rgb(100 150 232 / 0.35);
     }
     .tcard:hover .tglyph-accent {
       transform: translate(2px, -2px) rotate(8deg);
     }
     .tcard-tags .tcard-items li:hover {
-      border-color: rgb(197 242 119 / 0.6);
-      color: var(--color-lime);
+      border-color: rgb(100 150 232 / 0.6);
+      color: var(--color-glow);
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -1119,7 +1122,7 @@ body {
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem 2rem;
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
     padding-top: 1.25rem;
   }
   .contact-eyebrow,
@@ -1134,7 +1137,7 @@ body {
     color: var(--color-mute);
   }
   .contact-eyebrow-sep {
-    color: rgb(244 243 238 / 0.3);
+    color: rgb(232 240 255 / 0.3);
   }
   .contact-title {
     position: relative;
@@ -1168,11 +1171,11 @@ body {
     justify-content: space-between;
     gap: 1.5rem;
     border-radius: 9999px;
-    background: var(--color-lime);
+    background: var(--color-accent);
     padding: 0 0.5rem 0 2rem;
     font-size: 1.125rem;
     font-weight: 600;
-    color: var(--color-base);
+    color: var(--color-ink);
     transition: background-color 220ms ease, transform 220ms ease;
   }
   @media (min-width: 640px) {
@@ -1189,8 +1192,8 @@ body {
     height: 3rem;
     place-items: center;
     border-radius: 9999px;
-    background: var(--color-base);
-    color: var(--color-lime);
+    background: var(--color-ink);
+    color: var(--color-glow);
     transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
   }
   @media (min-width: 640px) {
@@ -1200,7 +1203,7 @@ body {
     }
   }
   .contact-cta:hover {
-    background: #d6f99b;
+    background: var(--color-glow);
   }
   .contact-cta:hover .contact-cta-icon,
   .contact-cta:focus-visible .contact-cta-icon {
@@ -1211,7 +1214,7 @@ body {
   }
 
   .contact-links {
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
   }
   .contact-link {
     display: grid;
@@ -1219,7 +1222,7 @@ body {
     align-items: center;
     column-gap: 1rem;
     min-height: 4.5rem;
-    border-bottom: 1px solid rgb(244 243 238 / 0.1);
+    border-bottom: 1px solid rgb(148 167 199 / 0.14);
     padding: 0.85rem 0.25rem;
     transition: color 200ms ease, border-color 200ms ease;
   }
@@ -1263,13 +1266,13 @@ body {
   }
   .contact-link:hover,
   .contact-link:focus-visible {
-    color: var(--color-lime);
-    border-bottom-color: rgb(197 242 119 / 0.5);
+    color: var(--color-glow);
+    border-bottom-color: rgb(100 150 232 / 0.5);
   }
   .contact-link:hover .contact-link-icon,
   .contact-link:hover .contact-link-arrow,
   .contact-link:focus-visible .contact-link-arrow {
-    color: var(--color-lime);
+    color: var(--color-glow);
   }
   .contact-link:hover .contact-link-arrow,
   .contact-link:focus-visible .contact-link-arrow {
@@ -1284,7 +1287,7 @@ body {
     font-size: 0.875rem;
   }
   .footer-inner {
-    border-top: 1px solid rgb(244 243 238 / 0.1);
+    border-top: 1px solid rgb(148 167 199 / 0.14);
   }
   .footer-logo {
     display: inline-flex;
@@ -1306,7 +1309,7 @@ body {
     width: 0.25rem;
     height: 0.25rem;
     border-radius: 9999px;
-    background: rgb(244 243 238 / 0.3);
+    background: rgb(148 167 199 / 0.42);
   }
   .footer-meta {
     display: flex;
@@ -1330,7 +1333,7 @@ body {
     transition: color 200ms ease;
   }
   .footer-link:hover {
-    color: var(--color-lime);
+    color: var(--color-glow);
   }
   .footer-note {
     font-size: 0.8125rem;

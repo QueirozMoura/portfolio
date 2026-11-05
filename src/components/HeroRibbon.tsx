@@ -34,15 +34,15 @@ export function HeroRibbon({ className = '' }: { className?: string }) {
     <svg className={className} viewBox="0 0 840 840" fill="none" aria-hidden="true" focusable="false" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id="rb-stroke" x1="0" y1="0" x2="840" y2="0" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#C5F277" stopOpacity="0" />
-          <stop offset="0.22" stopColor="#C5F277" stopOpacity="0.9" />
-          <stop offset="0.55" stopColor="#E9FBC8" />
-          <stop offset="0.82" stopColor="#C5F277" stopOpacity="0.85" />
-          <stop offset="1" stopColor="#C5F277" stopOpacity="0" />
+          <stop offset="0" stopColor="#4878C8" stopOpacity="0" />
+          <stop offset="0.22" stopColor="#4878C8" stopOpacity="0.9" />
+          <stop offset="0.55" stopColor="#B4CCF5" />
+          <stop offset="0.82" stopColor="#4878C8" stopOpacity="0.85" />
+          <stop offset="1" stopColor="#4878C8" stopOpacity="0" />
         </linearGradient>
         <radialGradient id="rb-glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(470 360) rotate(-25) scale(360 220)">
-          <stop offset="0" stopColor="#C5F277" stopOpacity="0.22" />
-          <stop offset="1" stopColor="#C5F277" stopOpacity="0" />
+          <stop offset="0" stopColor="#4878C8" stopOpacity="0.3" />
+          <stop offset="1" stopColor="#4878C8" stopOpacity="0" />
         </radialGradient>
       </defs>
 
@@ -50,8 +50,8 @@ export function HeroRibbon({ className = '' }: { className?: string }) {
       <ellipse cx="470" cy="360" rx="360" ry="220" transform="rotate(-25 470 360)" fill="url(#rb-glow)" />
 
       {/* órbita e marcas geométricas finas */}
-      <circle cx="455" cy="380" r="300" stroke="#F4F3EE" strokeOpacity="0.07" />
-      <circle cx="455" cy="380" r="210" stroke="#F4F3EE" strokeOpacity="0.05" strokeDasharray="2 7" />
+      <circle cx="455" cy="380" r="300" stroke="#E8F0FF" strokeOpacity="0.07" />
+      <circle cx="455" cy="380" r="210" stroke="#E8F0FF" strokeOpacity="0.05" strokeDasharray="2 7" />
 
       <g stroke="url(#rb-stroke)" strokeWidth="1.1" strokeLinecap="round">
         {STRANDS.map(({ d, o }) => (
@@ -62,8 +62,8 @@ export function HeroRibbon({ className = '' }: { className?: string }) {
       <path d={EDGE_FRONT} stroke="url(#rb-stroke)" strokeWidth="2.6" strokeLinecap="round" />
 
       {/* ponto de foco, ecoando o ponto do logo */}
-      <circle cx="755" cy="380" r="5" fill="#C5F277" />
-      <circle cx="755" cy="380" r="14" stroke="#C5F277" strokeOpacity="0.35" />
+      <circle cx="755" cy="380" r="5" fill="#6496E8" />
+      <circle cx="755" cy="380" r="14" stroke="#6496E8" strokeOpacity="0.35" />
     </svg>
   )
 }

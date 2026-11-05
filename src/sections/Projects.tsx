@@ -94,7 +94,7 @@ function Card({ p, index, layout }: { p: Project; index: number; layout: Layout 
         <Media p={p} sizes={layout.sizes} />
         <div className="pcard-body">
           <p className="pcard-index" aria-hidden="true">
-            <span className="text-lime">{pad(index + 1)}</span> / {pad(ITEMS.length)}
+            <span className="text-glow">{pad(index + 1)}</span> / {pad(ITEMS.length)}
           </p>
           <h3 id={`proj-${index}`} className="pcard-title font-grotesk">
             {p.name}
@@ -136,7 +136,7 @@ export function Projects() {
               Trabalhos selecionados <span className="projects-eyebrow-sep">/</span> 2026
             </p>
             <h2 id="projetos-title" className="projects-title font-grotesk">
-              Aplicações que resolvem <span className="text-lime">problemas reais.</span>
+              Aplicações que resolvem <span className="text-glow">problemas reais.</span>
             </h2>
           </div>
           <div className="lg:col-span-4 lg:pb-3">

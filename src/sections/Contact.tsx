@@ -23,17 +23,17 @@ export function Contact() {
   return (
     <section id="contato" aria-labelledby="contato-title" className="contact relative isolate overflow-clip">
       <svg className="contact-mark pointer-events-none absolute" viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="400" cy="0" r="120" stroke="#F4F3EE" strokeOpacity="0.08" />
-        <circle cx="400" cy="0" r="220" stroke="#F4F3EE" strokeOpacity="0.06" />
-        <circle cx="400" cy="0" r="320" stroke="#F4F3EE" strokeOpacity="0.04" strokeDasharray="2 7" />
-        <path d="M400 220A220 220 0 0 1 180 0" stroke="#C5F277" strokeOpacity="0.7" strokeWidth="2" />
-        <rect x="174" y="0" width="12" height="12" fill="#C5F277" />
+        <circle cx="400" cy="0" r="120" stroke="#E8F0FF" strokeOpacity="0.08" />
+        <circle cx="400" cy="0" r="220" stroke="#E8F0FF" strokeOpacity="0.06" />
+        <circle cx="400" cy="0" r="320" stroke="#E8F0FF" strokeOpacity="0.04" strokeDasharray="2 7" />
+        <path d="M400 220A220 220 0 0 1 180 0" stroke="#6496E8" strokeOpacity="0.7" strokeWidth="2" />
+        <rect x="174" y="0" width="12" height="12" fill="#6496E8" />
       </svg>
 
       <div className="mx-auto w-full max-w-[90rem] px-4 pb-16 pt-20 sm:px-6 sm:pt-24 lg:px-10 lg:pb-24 lg:pt-32">
         <div className="contact-in contact-top">
           <p className="contact-eyebrow">
-            <span className="text-lime">04</span>
+            <span className="text-glow">04</span>
             <span className="contact-eyebrow-sep" aria-hidden="true">/</span>
             Contato
           </p>
@@ -41,7 +41,7 @@ export function Contact() {
         </div>
 
         <h2 id="contato-title" className="contact-in contact-title font-grotesk">
-          Vamos construir algo <span className="text-lime">incrível?</span>
+          Vamos construir algo <span className="text-glow">incrível?</span>
         </h2>
 
         <div className="mt-12 grid gap-12 sm:mt-16 lg:mt-20 lg:grid-cols-12 lg:gap-x-8">

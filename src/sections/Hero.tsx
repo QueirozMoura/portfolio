@@ -32,7 +32,7 @@ export function Hero() {
                 Gustavo <span className="whitespace-nowrap">Moura</span>
               </span>
               <span className="hero-in hero-tagline mt-4 block sm:mt-6" style={delay(2)}>
-                Desenvolvendo <span className="text-lime">soluções reais</span> com tecnologia.
+                Desenvolvendo <span className="text-glow">soluções reais</span> com tecnologia.
               </span>
             </h1>
 
@@ -41,7 +41,7 @@ export function Hero() {
             </p>
 
             <div className="hero-in mt-7 flex flex-wrap gap-3 sm:mt-9" style={delay(4)}>
-              <a href="#projetos" className="btn-lime">
+              <a href="#projetos" className="btn-primary">
                 Ver Projetos
                 <ArrowRight className="btn-arrow h-4 w-4" aria-hidden="true" />
               </a>

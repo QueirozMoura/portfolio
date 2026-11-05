@@ -23,7 +23,7 @@ function Glyph({ id }: { id: TechGroup['id'] }) {
         <svg {...common}>
           <rect x="5.5" y="9.5" width="37" height="29" rx="2" stroke="currentColor" />
           <path d="M5.5 16.5h37M12 24h14M12 29h9" stroke="currentColor" />
-          <rect className="tglyph-accent" x="30" y="23" width="7" height="7" fill="#C5F277" />
+          <rect className="tglyph-accent" x="30" y="23" width="7" height="7" fill="#6496E8" />
         </svg>
       )
     case 'back':
@@ -33,7 +33,7 @@ function Glyph({ id }: { id: TechGroup['id'] }) {
           <circle cx="10" cy="12" r="3.5" stroke="currentColor" />
           <circle cx="38" cy="12" r="3.5" stroke="currentColor" />
           <circle cx="24" cy="38" r="3.5" stroke="currentColor" />
-          <circle className="tglyph-accent" cx="24" cy="24" r="5" fill="#C5F277" />
+          <circle className="tglyph-accent" cx="24" cy="24" r="5" fill="#6496E8" />
         </svg>
       )
     case 'data':
@@ -41,7 +41,7 @@ function Glyph({ id }: { id: TechGroup['id'] }) {
         <svg {...common}>
           <path d="M9 12v24c0 3 6.7 5.5 15 5.5S39 39 39 36V12" stroke="currentColor" />
           <path d="M9 20c0 3 6.7 5.5 15 5.5S39 23 39 20M9 28c0 3 6.7 5.5 15 5.5S39 31 39 28" stroke="currentColor" />
-          <ellipse className="tglyph-accent" cx="24" cy="12" rx="15" ry="5.5" stroke="#C5F277" strokeWidth="1.5" />
+          <ellipse className="tglyph-accent" cx="24" cy="12" rx="15" ry="5.5" stroke="#6496E8" strokeWidth="1.5" />
         </svg>
       )
     case 'tools':
@@ -50,7 +50,7 @@ function Glyph({ id }: { id: TechGroup['id'] }) {
           <rect x="7.5" y="7.5" width="14" height="14" stroke="currentColor" />
           <rect x="26.5" y="26.5" width="14" height="14" stroke="currentColor" />
           <rect x="7.5" y="26.5" width="14" height="14" stroke="currentColor" />
-          <rect className="tglyph-accent" x="26.5" y="7.5" width="14" height="14" fill="#C5F277" />
+          <rect className="tglyph-accent" x="26.5" y="7.5" width="14" height="14" fill="#6496E8" />
         </svg>
       )
   }
@@ -64,7 +64,7 @@ function Card({ g, index }: { g: TechGroup; index: number }) {
       <article className={`tcard tcard-${variant} ${wide ? 'tcard-wide' : ''}`} aria-labelledby={titleId}>
         <div className="tcard-head">
           <p className="tcard-index" aria-hidden="true">
-            <span className="text-lime">{pad(index + 1)}</span> / {pad(TECH_GROUPS.length)}
+            <span className="text-glow">{pad(index + 1)}</span> / {pad(TECH_GROUPS.length)}
           </p>
           <Glyph id={g.id} />
         </div>
@@ -95,12 +95,12 @@ export function Tech() {
         <header className="tech-in grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <div className="lg:col-span-8">
             <p className="tech-eyebrow">
-              <span className="text-lime">02</span>
+              <span className="text-glow">02</span>
               <span className="tech-eyebrow-sep" aria-hidden="true">/</span>
               Tecnologias
             </p>
             <h2 id="tecnologias-title" className="tech-title font-grotesk">
-              Ferramentas que transformam <span className="text-lime">ideias em produtos.</span>
+              Ferramentas que transformam <span className="text-glow">ideias em produtos.</span>
             </h2>
           </div>
           <div className="lg:col-span-4 lg:pb-3">

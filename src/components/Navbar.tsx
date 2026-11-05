@@ -85,7 +85,7 @@ export function Navbar() {
     <header className="site-nav fixed inset-x-0 top-0 z-50" data-scrolled={scrolled || open ? 'true' : undefined}>
       <nav aria-label="Principal" className="mx-auto flex h-16 w-full max-w-[90rem] items-center justify-between gap-4 px-4 sm:px-6 md:h-20 lg:px-10">
         <a href="#hero" className="nav-logo font-grotesk" aria-label="Gustavo Moura — início">
-          GM<span className="text-lime" aria-hidden="true">•</span>
+          GM<span className="text-glow" aria-hidden="true">•</span>
         </a>
 
         <ul className="hidden items-center gap-1 lg:flex">

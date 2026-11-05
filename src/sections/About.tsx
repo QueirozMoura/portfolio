@@ -16,12 +16,12 @@ export function About() {
       <div className="about-inner mx-auto w-full max-w-[90rem] px-4 pt-24 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
         <header className="about-in">
           <p className="about-eyebrow">
-            <span className="text-lime">01</span>
+            <span className="text-glow">01</span>
             <span className="about-eyebrow-sep" aria-hidden="true">/</span>
             Sobre mim
           </p>
           <h2 id="sobre-title" className="about-title font-grotesk">
-            Mais do que código, <span className="text-lime">construo soluções.</span>
+            Mais do que código, <span className="text-glow">construo soluções.</span>
           </h2>
         </header>
 
