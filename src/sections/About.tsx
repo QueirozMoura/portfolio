@@ -1,52 +1,71 @@
-import { GraduationCap, Layers, MapPin, Rocket } from 'lucide-react'
-import { Scene } from '../components/Scene'
-import type { Timing } from '../config/scenes'
+import { AboutGraphic } from '../components/AboutGraphic'
+import { CROSSFADE } from '../config/scenes'
+import { useMotion } from '../lib/motion-context'
 
 const FACTS = [
-  { icon: Layers, text: 'Full Stack' },
-  { icon: MapPin, text: 'São Paulo, Brasil' },
-  { icon: GraduationCap, text: 'ADS — UNIASSELVI' },
-  { icon: Rocket, text: 'Projetos reais em produção' },
+  { term: 'Formação', value: 'Análise e Desenvolvimento de Sistemas', note: 'UNIASSELVI' },
+  { term: 'Especialidade', value: 'Desenvolvimento Full Stack' },
+  { term: 'Foco atual', value: 'Projetos reais e evolução profissional' },
 ]
 
-function build(tl: gsap.core.Timeline, t: Timing) {
-  const { at } = t
-  tl.fromTo('[data-fx="p1"]', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: at(0.6) }, at(0.35))
-  tl.fromTo('[data-fx="p2"]', { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: at(0.6) }, at(1.0))
-  tl.fromTo('[data-fx="fact"]', { opacity: 0, x: 30 }, { opacity: 1, x: 0, duration: at(0.45), stagger: at(0.2) }, at(1.6))
-  // sai durante o crossfade, com leitura completa antes disso
-  tl.to('[data-fx="about"]', { opacity: 0, y: -70, duration: at(0.9) }, at(t.tailStart - 0.2))
-}
-
+/**
+ * Seção estática (sem Scene, canvas, frames nem GSAP). Entrada por scroll-driven animation em CSS,
+ * só onde há suporte e sem prefers-reduced-motion; caso contrário o conteúdo já aparece.
+ */
 export function About() {
+  const { mode } = useMotion()
+  // Tecnologias (ainda uma cena) entra em crossfade sobre os últimos CROSSFADE×100svh desta seção:
+  // a faixa final é reservada e escurece até o tom das cenas, sem esconder conteúdo.
+  const tail = mode === 'sequence' ? `${CROSSFADE * 100}svh` : '0px'
   return (
-    <Scene id="sobre" label="Sobre mim" focusX={0.15} build={build}>
-      {/* leitura: coluna de texto escurecida (desktop) e véu leve sobre a cena inteira (mobile) */}
-      <div className="pointer-events-none absolute inset-0 bg-ink/35 lg:bg-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-l from-ink/90 via-ink/60 to-transparent lg:via-ink/45 lg:to-transparent" />
-      <div className="scene-pad relative mx-auto grid h-full max-w-6xl items-center px-6 pb-6 md:px-10 lg:grid-cols-2">
-        <div data-fx="about" className="lg:col-start-2">
-          <h2 className="font-display t-title font-semibold">Mais do que código, construo soluções.</h2>
-          <div className="t-body mt-[2.2svh] max-w-lg space-y-[1.6svh] text-frost/80">
-            <p data-fx="p1">
-              Sou Gustavo Moura, desenvolvedor Full Stack e estudante de Análise e Desenvolvimento de Sistemas. Gosto de
-              transformar problemas reais em aplicações funcionais, combinando interfaces modernas, APIs, bancos de dados e
-              integrações.
-            </p>
-            <p data-fx="p2">
-              Meu foco está em construir produtos completos, aprender continuamente e evoluir por meio de projetos reais.
-            </p>
+    <section id="sobre" aria-labelledby="sobre-title" className="about relative isolate overflow-clip" style={{ '--about-tail': tail } as React.CSSProperties}>
+      <div className="about-inner mx-auto w-full max-w-[90rem] px-4 pt-24 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
+        <header className="about-in">
+          <p className="about-eyebrow">
+            <span className="text-lime">01</span>
+            <span className="about-eyebrow-sep" aria-hidden="true">/</span>
+            Sobre mim
+          </p>
+          <h2 id="sobre-title" className="about-title font-grotesk">
+            Mais do que código, <span className="text-lime">construo soluções.</span>
+          </h2>
+        </header>
+
+        <div className="mt-10 grid gap-10 sm:mt-14 lg:mt-20 lg:grid-cols-12 lg:gap-x-8">
+          <div className="about-art about-in lg:col-span-5">
+            <AboutGraphic className="about-graphic" />
           </div>
-          <ul className="mt-[3svh] grid max-w-lg grid-cols-2 gap-2 short:landscape:max-w-none short:landscape:grid-cols-4">
-            {FACTS.map(({ icon: Icon, text }) => (
-              <li key={text} data-fx="fact" className="glass-dense flex items-center gap-2.5 rounded-2xl px-3 py-2.5 text-[13px] leading-snug short:py-1.5 sm:px-4 sm:text-sm">
-                <Icon className="h-4 w-4 shrink-0 text-cyan" aria-hidden="true" />
-                {text}
-              </li>
-            ))}
-          </ul>
+
+          <div className="lg:col-span-6 lg:col-start-7 lg:pt-6">
+            <div className="about-text about-in">
+              <p className="about-lead">
+                Sou Gustavo Moura, desenvolvedor Full Stack e estudante de Análise e Desenvolvimento de Sistemas. Gosto de
+                transformar ideias em aplicações funcionais, unindo interfaces bem construídas, lógica de negócio e boas
+                práticas de desenvolvimento.
+              </p>
+              <p>
+                Minha experiência vem principalmente de projetos próprios e aplicações reais. Neles, participo de todas
+                as etapas, do planejamento à implementação e à publicação, trabalhando com interfaces, APIs,
+                autenticação, bancos de dados, integrações e deploy.
+              </p>
+              <p>
+                Estou em constante evolução e busco oportunidades para aprender com outros profissionais, contribuir com
+                soluções e crescer na área de tecnologia.
+              </p>
+            </div>
+
+            <dl className="about-facts about-in">
+              {FACTS.map(({ term, value, note }) => (
+                <div key={term} className="about-fact">
+                  <dt>{term}</dt>
+                  <dd className="font-grotesk">{value}</dd>
+                  {note && <dd className="about-fact-note">{note}</dd>}
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
       </div>
-    </Scene>
+    </section>
   )
 }

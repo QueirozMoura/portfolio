@@ -1,7 +1,5 @@
 import { ArrowRight } from 'lucide-react'
 import { HeroRibbon } from '../components/HeroRibbon'
-import { CROSSFADE } from '../config/scenes'
-import { useMotion } from '../lib/motion-context'
 
 const STATS = [
   { value: '5+', label: 'Projetos reais' },
@@ -16,7 +14,6 @@ const delay = (i: number) => ({ '--i': i }) as React.CSSProperties
  * A entrada é uma animação CSS única (opacity/transform) e respeita prefers-reduced-motion.
  */
 export function Hero() {
-  const { mode } = useMotion()
   return (
     <>
       <section id="hero" aria-labelledby="hero-title" className="hero relative isolate overflow-hidden bg-base text-paper">
@@ -64,12 +61,6 @@ export function Hero() {
           </ul>
         </div>
       </section>
-      {/*
-        A cena "Sobre" entra com crossfade sobre os últimos CROSSFADE×100svh da seção anterior (margem negativa
-        em components/Scene). Como a Hero deixou de ser uma cena fixa, este espaço reserva essa faixa para que o
-        Sobre continue entrando exatamente como antes, sem cobrir a Hero. No modo estático não há sobreposição.
-      */}
-      {mode === 'sequence' && <div aria-hidden="true" className="hero-tail" style={{ height: `${CROSSFADE * 100}svh` }} />}
     </>
   )
 }
