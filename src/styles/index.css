@@ -97,29 +97,27 @@ body {
   background: radial-gradient(120% 90% at 50% 45%, transparent 40%, rgb(3 3 8 / 0.6) 100%);
 }
 
-/* reflexo que segue o ponteiro nos cards */
-.sheen {
-  position: relative;
-}
-.sheen::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 300ms;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgb(0 217 255 / 0.16), transparent 60%);
-}
-.sheen:hover::before {
-  opacity: 1;
-}
-
 /* legibilidade do texto sobre as cenas */
 section h1,
 section h2,
 section > div p {
   text-shadow: 0 2px 28px rgb(3 3 8 / 0.85), 0 0 3px rgb(3 3 8 / 0.5);
+}
+/* foco em verde-lima nas seções redesenhadas (fora de @layer para vencer o :focus-visible global) */
+.site-nav :focus-visible,
+.hero :focus-visible,
+.projects :focus-visible {
+  outline-color: var(--color-lime);
+}
+
+/* seções redesenhadas não ficam sobre vídeo: sem sombra. Precisa ficar fora de @layer,
+   senão a regra acima (sem camada) vence independentemente da especificidade. */
+.hero h1,
+.hero p,
+.projects h2,
+.projects h3,
+.projects p {
+  text-shadow: none;
 }
 
 /* escala tipográfica fluida: limitada por largura E altura da viewport, para o bloco nunca estourar a tela */
@@ -167,89 +165,6 @@ section > div p {
   }
 }
 
-/* ───────── galeria de projetos ───────── */
-/* texto dos cards: sem a sombra de legibilidade das cenas (o painel já é denso) */
-.proj-card h3,
-.proj-card p {
-  text-shadow: none;
-}
-
-.shot-stage {
-  perspective: 1400px;
-}
-.shot {
-  --rx: 0deg;
-  --ry: 0deg;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transform-style: preserve-3d;
-  transition: transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
-  will-change: transform;
-}
-/* borda fina com reflexos cyan e roxo */
-.shot-border {
-  padding: 1px;
-  border-radius: 1.125rem;
-  background: linear-gradient(135deg, rgb(0 217 255 / 0.55), rgb(255 255 255 / 0.1) 38%, rgb(255 255 255 / 0.06) 62%, rgb(139 92 246 / 0.6));
-  box-shadow: 0 30px 70px -28px rgb(0 0 0 / 0.85), 0 0 60px -30px rgb(0 217 255 / 0.35);
-}
-.shot-window {
-  position: relative;
-  overflow: hidden;
-  border-radius: calc(1.125rem - 1px);
-  background: #0a0d1c;
-}
-.shot-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  height: 2rem;
-  padding: 0 0.85rem;
-  background: linear-gradient(180deg, rgb(255 255 255 / 0.09), rgb(255 255 255 / 0.04));
-  border-bottom: 1px solid rgb(255 255 255 / 0.08);
-}
-.shot-dot {
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 9999px;
-  background: rgb(255 255 255 / 0.22);
-}
-.shot-url {
-  margin-left: 0.6rem;
-  max-width: 70%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  border-radius: 9999px;
-  background: rgb(0 0 0 / 0.28);
-  padding: 0.15rem 0.7rem;
-  font-size: 0.7rem;
-  color: rgb(245 247 255 / 0.6);
-}
-/* reflexo sutil: só aparece no hover real (mouse) e nunca cobre a interface */
-.shot-gloss {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 400ms;
-  background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgb(255 255 255 / 0.1), transparent 55%);
-}
-@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .shot {
-    transform: none !important;
-    transition: none;
-    will-change: auto;
-  }
-}
-@media (hover: hover) and (pointer: fine) {
-  .shot:hover .shot-gloss {
-    opacity: 1;
-  }
-  .shot:hover .shot-border {
-    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.9), 0 0 80px -26px rgb(0 217 255 / 0.5);
-  }
-}
-
 /* ───────── desempenho no celular ─────────
    backdrop-filter sobre um canvas que muda a cada quadro é o acabamento mais caro da GPU móvel.
    Os painéis densos já são quase opacos: trocam o desfoque por fundo sólido equivalente.
@@ -279,10 +194,6 @@ section > div p {
 /* ═════════ navbar + hero (redesign) ═════════
    Tudo aqui anima só opacity/transform/cor; nada roda em loop; sem backdrop-filter nem filter: blur. */
 
-.site-nav :focus-visible,
-.hero :focus-visible {
-  outline-color: var(--color-lime);
-}
 
 /* navbar: transparente no topo; ao rolar, fundo sólido quase opaco (sem desfoque) */
 .site-nav {
@@ -396,11 +307,6 @@ section > div p {
   color: var(--color-mute);
 }
 
-/* hero */
-.hero h1,
-.hero p {
-  text-shadow: none;
-}
 .hero-backdrop {
   /* luz verde difusa à direita + leve escurecimento na base, fundindo com a seção seguinte */
   background:
@@ -616,4 +522,338 @@ section > div p {
     transform: none;
   }
 }
+
+  /* ═════════ projetos (redesign) ═════════
+     Sem canvas, GSAP ou listeners: entrada por scroll-driven animation (CSS), hover só com transform/opacity/cor. */
+  .projects {
+    background: var(--color-base);
+    color: var(--color-paper);
+  }
+  /* cortina: a seção sobe sobre o fim da cena anterior com borda arredondada */
+  .projects-curtain {
+    border-radius: 1.75rem 1.75rem 0 0;
+    border-top: 1px solid rgb(244 243 238 / 0.08);
+    /* escurece até o tom das cenas ANTES da faixa final, onde o Contato entra em crossfade: sem borda visível */
+    background: linear-gradient(to bottom, var(--color-base) calc(100% - 100svh - 18rem), var(--color-ink) calc(100% - 100svh));
+  }
+  @media (min-width: 1024px) {
+    .projects-curtain {
+      border-radius: 2.75rem 2.75rem 0 0;
+    }
+  }
+
+  .projects-eyebrow {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+  .projects-eyebrow-line {
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--color-lime);
+  }
+  .projects-eyebrow-sep {
+    color: var(--color-lime);
+  }
+  .projects-title {
+    margin-top: 1.25rem;
+    max-width: 16ch;
+    font-size: clamp(2.25rem, 1.1rem + 4.6vw, 5.5rem);
+    font-weight: 700;
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+  .projects-desc {
+    max-width: 30rem;
+    font-size: clamp(1rem, 0.94rem + 0.25vw, 1.125rem);
+    line-height: 1.6;
+    color: var(--color-mute);
+    text-wrap: pretty;
+  }
+
+  /* card */
+  .pcard-slot {
+    min-width: 0;
+  }
+  @media (min-width: 1024px) {
+    /* no desktop cada card tem a altura do próprio conteúdo: a assimetria é intencional */
+    .pcard-slot {
+      align-self: start;
+    }
+    .pcard-offset {
+      margin-top: 5rem;
+    }
+  }
+  .pcard {
+    position: relative;
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 1.25rem;
+    border: 1px solid rgb(244 243 238 / 0.08);
+    background: var(--color-surface);
+    transition: transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1), border-color 300ms ease;
+  }
+  .pcard-media {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #15171b;
+    border-bottom: 1px solid rgb(244 243 238 / 0.06);
+  }
+  .pcard-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .pcard-placeholder {
+    display: grid;
+    height: 100%;
+    place-items: center;
+    background:
+      radial-gradient(rgb(244 243 238 / 0.08) 1px, transparent 1.2px) 0 0 / 22px 22px,
+      radial-gradient(60% 60% at 70% 30%, rgb(197 242 119 / 0.12), transparent 70%);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    color: rgb(244 243 238 / 0.35);
+  }
+  .pcard-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 1.25rem 1.25rem 1.375rem;
+  }
+  @media (min-width: 640px) {
+    .pcard-body {
+      padding: 1.75rem 1.75rem 1.875rem;
+    }
+  }
+  .pcard-index {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    color: var(--color-mute);
+  }
+  .pcard-title {
+    margin-top: 0.75rem;
+    font-size: clamp(1.5rem, 1.2rem + 1.2vw, 2.125rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+  }
+  .pcard-summary {
+    margin-top: 0.75rem;
+    max-width: 40rem;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-mute);
+    text-wrap: pretty;
+  }
+  .pcard-highlights {
+    margin-top: 1.25rem;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.45;
+    color: rgb(244 243 238 / 0.82);
+  }
+  .pcard-highlights li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+  .pcard-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: 9999px;
+    background: var(--color-lime);
+  }
+  .pcard-stack {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+  }
+  .pcard-stack li {
+    border-radius: 9999px;
+    border: 1px solid rgb(244 243 238 / 0.1);
+    padding: 0.25rem 0.65rem;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: rgb(244 243 238 / 0.78);
+  }
+  .pcard-links {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1.5rem;
+  }
+
+  /* destaque: imagem + texto lado a lado no desktop */
+  @media (min-width: 1024px) {
+    .pcard-feature {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    }
+    .pcard-feature .pcard-media {
+      aspect-ratio: auto;
+      min-height: 100%;
+      border-bottom: 0;
+      border-right: 1px solid rgb(244 243 238 / 0.06);
+    }
+    .pcard-feature .pcard-img {
+      position: absolute;
+      inset: 0;
+    }
+    .pcard-feature .pcard-body {
+      padding: 2.75rem 2.5rem;
+      justify-content: center;
+    }
+    .pcard-feature .pcard-title {
+      font-size: clamp(2rem, 1rem + 1.9vw, 3rem);
+    }
+    .pcard-feature .pcard-links {
+      margin-top: 0;
+      padding-top: 2rem;
+    }
+    .pcard-flip {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+    .pcard-flip .pcard-media {
+      order: 2;
+      border-right: 0;
+      border-left: 1px solid rgb(244 243 238 / 0.06);
+    }
+  }
+
+  /* links */
+  .plink {
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.45rem;
+    border-radius: 9999px;
+    padding: 0 1.1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+  .plink-demo {
+    background: var(--color-lime);
+    color: var(--color-base);
+  }
+  .plink-demo:hover {
+    background: #d6f99b;
+  }
+  .plink-code {
+    border: 1px solid rgb(244 243 238 / 0.18);
+    color: var(--color-paper);
+  }
+  .plink-code:hover {
+    border-color: var(--color-lime);
+    color: var(--color-lime);
+  }
+  .plink-arrow {
+    transition: transform 250ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .plink:hover .plink-arrow,
+  .plink:focus-visible .plink-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  .projects-more {
+    margin-top: 4rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    border-top: 1px solid rgb(244 243 238 / 0.1);
+    padding-top: 1.75rem;
+    color: var(--color-mute);
+  }
+  @media (min-width: 1024px) {
+    .projects-more {
+      margin-top: 6rem;
+    }
+  }
+
+  /* hover (só mouse): elevação, borda lima discreta e zoom leve no screenshot */
+  @media (hover: hover) and (pointer: fine) {
+    .pcard:hover {
+      transform: translateY(-6px);
+      border-color: rgb(197 242 119 / 0.35);
+    }
+    .pcard:hover .pcard-img {
+      transform: scale(1.025);
+    }
+    .pcard:hover .pcard-title {
+      color: var(--color-lime);
+    }
+    .pcard-title {
+      transition: color 250ms ease;
+    }
+  }
+  .pcard:focus-within {
+    border-color: rgb(197 242 119 / 0.35);
+  }
+
+  /* entrada: animação ligada ao scroll, executada pelo compositor (sem JS, sem listeners).
+     Usa `translate` (não `transform`) para não brigar com o hover. Sem suporte → conteúdo visível. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .pcard-slot,
+      .projects-more {
+        animation: pcard-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 55%;
+      }
+    }
+  }
+  @keyframes pcard-in {
+    from {
+      opacity: 0;
+      translate: 0 48px;
+    }
+  }
+  @media (max-width: 767px) {
+    @keyframes pcard-in {
+      from {
+        opacity: 0;
+        translate: 0 20px;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pcard,
+    .pcard-img,
+    .plink-arrow {
+      transition: none;
+    }
+    .pcard:hover,
+    .pcard:hover .pcard-img,
+    .plink:hover .plink-arrow {
+      transform: none;
+    }
+  }
 }
