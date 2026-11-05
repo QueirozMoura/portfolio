@@ -1,5 +1,6 @@
 import { ArrowRight } from 'lucide-react'
 import { HeroRibbon } from '../components/HeroRibbon'
+import { Aurora, Particles } from '../components/Ambient'
 
 const STATS = [
   { value: '5+', label: 'Projetos reais' },
@@ -10,14 +11,16 @@ const STATS = [
 const delay = (i: number) => ({ '--i': i }) as React.CSSProperties
 
 /**
- * Hero estática: HTML + CSS + um SVG leve. Sem canvas, frames, vídeo nem GSAP.
- * A entrada é uma animação CSS única (opacity/transform) e respeita prefers-reduced-motion.
+ * Hero: HTML + CSS + SVG leve. Sem canvas, frames, vídeo nem GSAP. Atmosfera (aurora, partículas, órbitas) em CSS,
+ * só transform/opacity, pausada fora da tela e desligada com prefers-reduced-motion.
  */
 export function Hero() {
   return (
     <>
-      <section id="hero" aria-labelledby="hero-title" className="hero relative isolate overflow-hidden bg-base text-paper">
+      <section id="hero" aria-labelledby="hero-title" className="hero relative isolate overflow-hidden bg-base text-paper" data-ambient>
         <div className="hero-backdrop pointer-events-none absolute inset-0 -z-10" aria-hidden="true" />
+        <Aurora variant="hero" />
+        <Particles variant="hero" />
         <HeroRibbon className="hero-ribbon pointer-events-none absolute -z-10" />
 
         <div className="hero-grid relative mx-auto grid min-h-svh grid-rows-[1fr_auto] lg:grid-rows-1 w-full max-w-[90rem] px-4 pb-8 pt-24 sm:px-6 sm:pb-10 md:pt-28 lg:grid-cols-12 lg:gap-x-8 lg:px-10 lg:pb-12">

@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight, Mail } from 'lucide-react'
 import { ExtLink, GithubIcon, LinkedinIcon } from '../components/ui'
 import { SITE } from '../data/site'
+import { Aurora, Particles } from '../components/Ambient'
 
 /** Identificador legível a partir das URLs reais (sem inventar handles). */
 const handle = (url: string) => url.replace(/\/+$/, '').split('/').pop() ?? url
@@ -14,21 +15,30 @@ const SOCIAL = [
 ]
 
 /**
- * Seção estática de encerramento (sem Scene, canvas, frames nem GSAP).
+ * Seção de encerramento: atmosfera (aurora + partículas) e marca geométrica animadas só por CSS (transform/opacity).
  * Entrada por scroll-driven animation em CSS, só onde há suporte e sem prefers-reduced-motion.
  */
 export function Contact() {
   // destino principal: o e-mail configurado; sem e-mail, o LinkedIn (ambos reais, de data/site.ts)
   const primary = SITE.email ? { href: `mailto:${SITE.email}`, hint: ' (abre o aplicativo de e-mail)' } : { href: SITE.linkedin, hint: ' no LinkedIn (abre em nova aba)' }
   return (
-    <section id="contato" aria-labelledby="contato-title" className="contact relative isolate overflow-clip">
-      <svg className="contact-mark pointer-events-none absolute" viewBox="0 0 400 400" fill="none" aria-hidden="true" focusable="false">
-        <circle cx="400" cy="0" r="120" stroke="#E8F0FF" strokeOpacity="0.08" />
-        <circle cx="400" cy="0" r="220" stroke="#E8F0FF" strokeOpacity="0.06" />
-        <circle cx="400" cy="0" r="320" stroke="#E8F0FF" strokeOpacity="0.04" strokeDasharray="2 7" />
-        <path d="M400 220A220 220 0 0 1 180 0" stroke="#6496E8" strokeOpacity="0.7" strokeWidth="2" />
-        <rect x="174" y="0" width="12" height="12" fill="#6496E8" />
-      </svg>
+    <section id="contato" aria-labelledby="contato-title" className="contact relative isolate overflow-clip" data-ambient>
+      <Aurora variant="contact" />
+      <Particles variant="contact" />
+      {/* marca geométrica: círculos fixos + o arco com o quadrado numa camada própria, que oscila devagar */}
+      <div className="contact-mark pointer-events-none absolute" aria-hidden="true">
+        <svg className="cm-layer" viewBox="0 0 400 400" fill="none" focusable="false">
+          <circle cx="400" cy="0" r="120" stroke="#E8F0FF" strokeOpacity="0.08" />
+          <circle cx="400" cy="0" r="220" stroke="#E8F0FF" strokeOpacity="0.06" />
+          <circle cx="400" cy="0" r="320" stroke="#E8F0FF" strokeOpacity="0.04" strokeDasharray="2 7" />
+        </svg>
+        <div className="cm-layer cm-sway fx">
+          <svg viewBox="0 0 400 400" fill="none" focusable="false">
+            <path d="M400 220A220 220 0 0 1 180 0" stroke="#6496E8" strokeOpacity="0.7" strokeWidth="2" />
+            <rect x="174" y="0" width="12" height="12" fill="#6496E8" />
+          </svg>
+        </div>
+      </div>
 
       <div className="mx-auto w-full max-w-[90rem] px-4 pb-16 pt-20 sm:px-6 sm:pt-24 lg:px-10 lg:pb-24 lg:pt-32">
         <div className="contact-in contact-top">

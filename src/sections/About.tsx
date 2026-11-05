@@ -12,7 +12,7 @@ const FACTS = [
  */
 export function About() {
   return (
-    <section id="sobre" aria-labelledby="sobre-title" className="about relative isolate overflow-clip">
+    <section id="sobre" aria-labelledby="sobre-title" className="about relative isolate overflow-clip" data-ambient>
       <div className="about-inner mx-auto w-full max-w-[90rem] px-4 pt-24 sm:px-6 sm:pt-28 lg:px-10 lg:pt-36">
         <header className="about-in">
           <p className="about-eyebrow">

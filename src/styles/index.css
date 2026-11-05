@@ -780,6 +780,7 @@ body {
     }
   }
   .about-graphic {
+    position: relative; /* contêiner das camadas .ag-layer */
     display: block;
     width: 100%;
     height: auto;
@@ -1353,4 +1354,441 @@ body {
       transform: none;
     }
   }
+
+  /* ═════════ atmosfera cinematográfica (etapa 7) ═════════
+     Regras de desempenho: só transform/opacity animam; gradientes são estáticos dentro de camadas que se movem;
+     nada de filter/blur/box-shadow por quadro; tudo pausa fora da tela ([data-offscreen]) e some com reduced motion. */
+
+  /* camadas sobrepostas dos gráficos (mesmo viewBox) */
+  .ribbon-layer,
+  .ag-layer,
+  .cm-layer {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  /* as camadas animadas são <div> com o <svg> dentro: o Chrome só leva ao compositor animações de transform
+     em elementos HTML; num <svg>, a rotação rodaria na thread principal e repintaria o desenho a cada quadro */
+  :is(.ribbon-layer, .ag-layer, .cm-layer) > svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  @keyframes fx-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* aurora: manchas de luz (gradiente radial estático) que derivam devagar */
+  .aurora,
+  .particles {
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .aurora {
+    animation: aurora-in 2400ms ease-out both;
+  }
+  @keyframes aurora-in {
+    from {
+      opacity: 0;
+    }
+  }
+  .aurora-blob {
+    position: absolute;
+    display: block;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, var(--c), transparent);
+    will-change: transform;
+    animation: aurora-drift var(--t) ease-in-out infinite alternate;
+  }
+  @keyframes aurora-drift {
+    to {
+      transform: translate3d(var(--tx), var(--ty), 0) scale(var(--sc)) rotate(var(--rt));
+    }
+  }
+  /* hero: luz principal atrás da fita, um reflexo frio à esquerda/baixo e um núcleo mais claro */
+  .aurora-hero .aurora-blob-1 {
+    top: -12%;
+    right: -12%;
+    width: 62vw;
+    height: 46vw;
+    --c: rgb(72 120 200 / 0.3);
+    --t: 22s;
+    --tx: -7%;
+    --ty: 9%;
+    --sc: 1.12;
+    --rt: 10deg;
+  }
+  .aurora-hero .aurora-blob-2 {
+    bottom: -22%;
+    left: -14%;
+    width: 52vw;
+    height: 34vw;
+    --c: rgb(43 76 140 / 0.3);
+    --t: 28s;
+    --tx: 10%;
+    --ty: -8%;
+    --sc: 1.18;
+    --rt: -8deg;
+  }
+  .aurora-hero .aurora-blob-3 {
+    top: 30%;
+    right: 18%;
+    width: 30vw;
+    height: 22vw;
+    --c: rgb(100 150 232 / 0.13);
+    --t: 17s;
+    --tx: -12%;
+    --ty: -10%;
+    --sc: 1.25;
+    --rt: 14deg;
+  }
+  /* contato: brilho atrás da marca geométrica e um reflexo frio sob o título */
+  .aurora-contact .aurora-blob-1 {
+    top: -10%;
+    right: -14%;
+    width: 52vw;
+    height: 40vw;
+    --c: rgb(72 120 200 / 0.24);
+    --t: 24s;
+    --tx: -8%;
+    --ty: 10%;
+    --sc: 1.1;
+    --rt: -10deg;
+  }
+  .aurora-contact .aurora-blob-2 {
+    bottom: -18%;
+    left: -10%;
+    width: 50vw;
+    height: 30vw;
+    --c: rgb(43 76 140 / 0.26);
+    --t: 30s;
+    --tx: 12%;
+    --ty: -10%;
+    --sc: 1.15;
+    --rt: 6deg;
+  }
+  /* mobile: menos camadas, maiores (cobrem a tela estreita) e mais lentas */
+  @media (max-width: 767px) {
+    .aurora .aurora-blob-3 {
+      display: none;
+    }
+    .aurora-hero .aurora-blob-1 {
+      top: 4%;
+      right: -55%;
+      width: 130vw;
+      height: 100vw;
+      --t: 30s;
+    }
+    .aurora-hero .aurora-blob-2 {
+      bottom: -12%;
+      left: -45%;
+      width: 120vw;
+      height: 80vw;
+      --t: 36s;
+    }
+    .aurora-contact .aurora-blob-1 {
+      top: -6%;
+      right: -60%;
+      width: 130vw;
+      height: 90vw;
+    }
+    .aurora-contact .aurora-blob-2 {
+      left: -50%;
+      width: 120vw;
+      height: 70vw;
+    }
+  }
+
+  /* partículas: paradas dentro de 2–3 grupos; só os grupos se movem (transform + opacity, valores fixos).
+     Cada animação ativa custa um recálculo de estilo por quadro enquanto a página rola: menos elementos animados. */
+  .pgroup {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+  .pgroup-1 {
+    animation: pgroup-near 19s ease-in-out infinite alternate;
+  }
+  .pgroup-2 {
+    animation: pgroup-mid 27s ease-in-out -9s infinite alternate;
+  }
+  .pgroup-3 {
+    animation: pgroup-far 36s ease-in-out -20s infinite alternate;
+  }
+  @keyframes pgroup-near {
+    50% {
+      opacity: 0.45;
+    }
+    to {
+      transform: translate3d(-16px, -42px, 0);
+    }
+  }
+  @keyframes pgroup-mid {
+    50% {
+      opacity: 0.6;
+    }
+    to {
+      transform: translate3d(18px, -28px, 0);
+    }
+  }
+  @keyframes pgroup-far {
+    50% {
+      opacity: 0.5;
+    }
+    to {
+      transform: translate3d(-8px, -18px, 0);
+    }
+  }
+  .particle {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    height: var(--s);
+    border-radius: 50%;
+    background: radial-gradient(circle, #e8f0ff 0 22%, rgb(100 150 232 / 0.85) 45%, rgb(100 150 232 / 0) 72%);
+    opacity: var(--o);
+  }
+  /* mobile: metade das partículas e sem o grupo mais distante */
+  @media (max-width: 767px) {
+    .particle:nth-child(2n),
+    .pgroup-3 {
+      display: none;
+    }
+  }
+
+  /* fita da Hero: flutuação lenta; o ponto de foco gira em torno do centro (455, 380)/840.
+     Órbitas tracejadas ficam paradas: girar um tracejado fino quase não se vê e custava quadros na rolagem. */
+  .ribbon-main {
+    animation: ribbon-float 18s ease-in-out infinite alternate;
+  }
+  @keyframes ribbon-float {
+    to {
+      transform: translate3d(-1.2%, 1.6%, 0) rotate(-1.5deg);
+    }
+  }
+  .ribbon-orbit {
+    transform-origin: 54.1667% 45.2381%;
+  }
+  .ribbon-orbit-sat {
+    animation: fx-spin 90s linear infinite reverse;
+  }
+
+  /* gráfico do Sobre: o arco gira em torno da esfera (CX, CY) = (290, 250).
+     Com preserveAspectRatio "xMidYMin slice", o centro fica em 250/640 da altura (ou 250/470 no recorte mobile). */
+  .ag-spin {
+    transform-origin: 50% 39.0625%;
+  }
+  .ag-spin-arc {
+    animation: fx-spin 48s linear infinite;
+  }
+  @media (max-width: 639px) {
+    .ag-spin {
+      transform-origin: 50% 53.1915%;
+    }
+  }
+  /* brilho estático atrás da esfera (sem animação) */
+  .about-art::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 39%;
+    z-index: -1;
+    width: 95%;
+    aspect-ratio: 1;
+    translate: -50% -50%;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(72 120 200 / 0.16), transparent);
+    pointer-events: none;
+  }
+  @media (max-width: 639px) {
+    .about-art::before {
+      top: 53%;
+    }
+  }
+
+  /* marca do Contato: o arco com o quadrado oscila em torno do canto (400, 0) */
+  .cm-sway {
+    transform-origin: 100% 0;
+  }
+  .cm-sway {
+    animation: cm-sway 16s ease-in-out infinite alternate;
+  }
+  @keyframes cm-sway {
+    from {
+      transform: rotate(-6deg);
+    }
+    to {
+      transform: rotate(8deg);
+    }
+  }
+
+  /* pausa tudo que é contínuo quando a seção está fora da tela (useOffscreenPause). Só elementos .fx (os que
+     de fato animam): um seletor de descendentes (.fx *) faria cada pausa recalcular o estilo de subárvores inteiras. */
+  [data-offscreen] .fx {
+    animation-play-state: paused;
+  }
+
+  .card-glow {
+    display: none; /* toque/mobile: sem efeitos dependentes de hover */
+  }
+  /* ───────── cards: luz que segue o cursor (só mouse) ─────────
+     useSpotlight grava --mx/--my no card; o preenchimento e o anel de borda são gradientes desenhados pelo CSS. */
+  @media (hover: hover) and (pointer: fine) {
+    /* luz interna: elemento próprio (.card-glow) que só anima opacity, executada pelo compositor.
+       Não animar background/box-shadow do card: o hover muda durante a rolagem e isso repintaria o card a cada quadro. */
+    .card-glow {
+      position: absolute;
+      inset: 0;
+      display: block;
+      border-radius: inherit;
+      pointer-events: none;
+      background: radial-gradient(520px circle at var(--mx, 50%) var(--my, 0%), rgb(100 150 232 / 0.1), transparent 65%);
+      opacity: 0;
+      transition: opacity 450ms ease;
+    }
+    .tcard:hover .card-glow,
+    .pcard:hover .card-glow {
+      opacity: 1;
+    }
+    .pcard-body {
+      position: relative; /* fica acima da luz interna */
+    }
+    .tcard {
+      transition: border-color 250ms ease, transform 450ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+    .tcard:hover {
+      transform: translateY(-4px);
+    }
+    /* anel de luz na borda, mais forte perto do cursor */
+    .tcard::after,
+    .pcard::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      pointer-events: none;
+      background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), rgb(100 150 232 / 0.9), transparent 70%);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 400ms ease;
+    }
+    .tcard:hover::after,
+    .pcard:hover::after {
+      opacity: 1;
+    }
+  }
+
+  /* ───────── microinterações ───────── */
+  /* botões cheios: reflexo que atravessa o botão e brilho azul discreto no hover */
+  .btn-primary,
+  .plink-demo,
+  .contact-cta {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+  .btn-primary::after,
+  .plink-demo::after,
+  .contact-cta::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.28) 50%, transparent 65%);
+    transform: translateX(-110%);
+    transition: transform 750ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    pointer-events: none;
+  }
+  .btn-primary:hover::after,
+  .plink-demo:hover::after,
+  .contact-cta:hover::after {
+    transform: translateX(110%);
+  }
+  .btn-primary,
+  .contact-cta {
+    transition: background-color 220ms ease, border-color 220ms ease, color 220ms ease, transform 220ms ease, box-shadow 350ms ease;
+  }
+  .plink-demo {
+    transition: background-color 200ms ease, color 200ms ease, box-shadow 350ms ease;
+  }
+  .btn-primary:hover,
+  .plink-demo:hover,
+  .contact-cta:hover {
+    box-shadow: 0 14px 34px -14px rgb(100 150 232 / 0.65);
+  }
+  /* botões de contorno: leve preenchimento azul */
+  .btn-outline:hover,
+  .plink-code:hover,
+  .nav-toggle:hover {
+    background-color: rgb(100 150 232 / 0.07);
+  }
+  .nav-toggle {
+    transition: background-color 200ms ease, border-color 200ms ease;
+  }
+  .nav-toggle:hover {
+    border-color: rgb(100 150 232 / 0.45);
+  }
+
+  /* ponto do logo acende no hover */
+  .nav-logo span,
+  .footer-logo span {
+    display: inline-block;
+    transition: transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1), text-shadow 300ms ease;
+  }
+  .nav-logo:hover span,
+  .footer-logo:hover span {
+    transform: scale(1.35);
+    text-shadow: 0 0 12px rgb(100 150 232 / 0.9);
+  }
+
+  /* palavras em destaque nos títulos: gradiente de luz azul estático (contraste maior que o azul puro) */
+  @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+    :is(h1, h2) .text-glow {
+      background: linear-gradient(100deg, #6496e8 8%, #aac5f5 48%, #6496e8 88%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  /* linha do eyebrow da Hero se desenha na entrada */
+  .hero-eyebrow-line {
+    transform-origin: left;
+    animation: line-draw 1100ms cubic-bezier(0.2, 0.7, 0.2, 1) 350ms both;
+  }
+  @keyframes line-draw {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  /* movimento reduzido: nada contínuo, nada que deslize; os gráficos ficam estáticos e visíveis */
+  @media (prefers-reduced-motion: reduce) {
+    .fx,
+    .hero-eyebrow-line {
+      animation: none !important;
+    }
+    .btn-primary::after,
+    .plink-demo::after,
+    .contact-cta::after {
+      display: none;
+    }
+    .tcard:hover,
+    .nav-logo:hover span,
+    .footer-logo:hover span {
+      transform: none;
+    }
+  }
 }
+

@@ -27,7 +27,8 @@ const CHROME =
 if (!CHROME) throw new Error('Chrome/Chromium não encontrado: defina CHROME_PATH')
 
 const html = readFileSync('dist/index.html', 'utf8')
-const ribbon = html.match(/<svg class="hero-ribbon[\s\S]*?<\/svg>/)?.[0]
+// a fita é um <div class="hero-ribbon"> com camadas <div><svg> sobrepostas (ver HeroRibbon.tsx)
+const ribbon = html.match(/<div class="hero-ribbon[\s\S]*?<\/svg><\/div><\/div>/)?.[0]
 if (!ribbon) throw new Error('fita da Hero não encontrada em dist/index.html: rode `npm run build` antes')
 
 const fonts = pathToFileURL(resolve('public/fonts')).href
@@ -46,7 +47,8 @@ const OG = `<!doctype html><html lang="pt-BR"><meta charset="utf-8"><style>${BAS
     background: radial-gradient(55% 60% at 80% 42%, rgb(72 120 200 / 0.16), transparent 70%), linear-gradient(to bottom, transparent 70%, #04060b); }
   .dots { position: absolute; inset: 0; background-image: radial-gradient(rgb(148 167 199 / 0.12) 1px, transparent 1.2px); background-size: 28px 28px;
     -webkit-mask-image: radial-gradient(60% 70% at 75% 40%, #000, transparent 75%); }
-  svg { position: absolute; top: -50px; right: -95px; width: 680px; height: 680px; }
+  .hero-ribbon { position: absolute; top: -50px; right: -95px; width: 680px; height: 680px; }
+  .hero-ribbon svg { position: absolute; inset: 0; width: 100%; height: 100%; }
   .content { position: absolute; left: 80px; top: 72px; bottom: 64px; width: 720px; display: flex; flex-direction: column; }
   .logo { font: 700 34px/1 'Space Grotesk'; letter-spacing: -0.04em; }
   .eyebrow { margin-top: auto; display: flex; align-items: center; gap: 16px; font-size: 18px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; color: #a8b7cf; }

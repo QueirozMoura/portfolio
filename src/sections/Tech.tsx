@@ -1,3 +1,4 @@
+import { useSpotlight } from '../hooks/useSpotlight'
 import { TECH_GROUPS, type TechGroup } from '../data/stack'
 
 /**
@@ -62,6 +63,7 @@ function Card({ g, index }: { g: TechGroup; index: number }) {
   return (
     <li className={`tcard-slot ${span}`}>
       <article className={`tcard tcard-${variant} ${wide ? 'tcard-wide' : ''}`} aria-labelledby={titleId}>
+        <span className="card-glow" aria-hidden="true" />
         <div className="tcard-head">
           <p className="tcard-index" aria-hidden="true">
             <span className="text-glow">{pad(index + 1)}</span> / {pad(TECH_GROUPS.length)}
@@ -89,6 +91,7 @@ function Card({ g, index }: { g: TechGroup; index: number }) {
  * só onde há suporte e sem prefers-reduced-motion; caso contrário o conteúdo já aparece.
  */
 export function Tech() {
+  const spot = useSpotlight<HTMLUListElement>('.tcard')
   return (
     <section id="tecnologias" aria-labelledby="tecnologias-title" className="tech relative isolate">
       <div className="mx-auto w-full max-w-[90rem] px-4 pb-12 pt-4 sm:px-6 sm:pb-16 lg:px-10 lg:pb-20 lg:pt-6">
@@ -111,7 +114,7 @@ export function Tech() {
           </div>
         </header>
 
-        <ul className="mt-12 grid gap-4 sm:mt-16 sm:gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-6">
+        <ul ref={spot} className="mt-12 grid gap-4 sm:mt-16 sm:gap-5 md:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-6">
           {TECH_GROUPS.map((g, i) => (
             <Card key={g.id} g={g} index={i} />
           ))}

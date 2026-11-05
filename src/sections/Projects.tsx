@@ -1,3 +1,4 @@
+import { useSpotlight } from '../hooks/useSpotlight'
 import { ArrowUpRight } from 'lucide-react'
 import { ExtLink, GithubIcon } from '../components/ui'
 import { PROJECTS, type Project } from '../data/projects'
@@ -91,6 +92,7 @@ function Card({ p, index, layout }: { p: Project; index: number; layout: Layout 
   return (
     <li className={`pcard-slot ${layout.span} ${layout.offset ? 'pcard-offset' : ''}`}>
       <article className={`pcard ${feature ? 'pcard-feature' : ''} ${layout.flip ? 'pcard-flip' : ''}`} aria-labelledby={`proj-${index}`}>
+        <span className="card-glow" aria-hidden="true" />
         <Media p={p} sizes={layout.sizes} />
         <div className="pcard-body">
           <p className="pcard-index" aria-hidden="true">
@@ -126,6 +128,7 @@ function Card({ p, index, layout }: { p: Project; index: number; layout: Layout 
  * (scroll-driven animation, só onde há suporte); sem suporte ou sem JS, tudo já aparece.
  */
 export function Projects() {
+  const spot = useSpotlight<HTMLUListElement>('.pcard')
   return (
     <section id="projetos" aria-labelledby="projetos-title" className="projects relative isolate pb-8 sm:pb-12 lg:pb-16">
       <div className="mx-auto w-full max-w-[90rem] px-4 pt-20 sm:px-6 sm:pt-24 lg:px-10 lg:pt-32">
@@ -146,7 +149,7 @@ export function Projects() {
           </div>
         </header>
 
-        <ul className="mt-12 grid gap-5 sm:mt-16 sm:gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
+        <ul ref={spot} className="mt-12 grid gap-5 sm:mt-16 sm:gap-6 md:grid-cols-2 lg:mt-20 lg:grid-cols-12 lg:gap-x-8 lg:gap-y-10">
           {ITEMS.map((p, i) => (
             <Card key={p.name} p={p} index={i} layout={layoutOf(i)} />
           ))}

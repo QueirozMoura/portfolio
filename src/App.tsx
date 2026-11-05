@@ -1,3 +1,4 @@
+import { useOffscreenPause } from './hooks/useOffscreenPause'
 import { Navbar } from './components/Navbar'
 import { ProgressBar } from './components/ProgressBar'
 import { Footer } from './components/Footer'
@@ -12,6 +13,7 @@ import { Contact } from './sections/Contact'
  * navegador durante a renderização, o que permite pré-renderizar o HTML no build (ver scripts/prerender.mjs).
  */
 export default function App() {
+  useOffscreenPause()
   return (
     <>
       <a
