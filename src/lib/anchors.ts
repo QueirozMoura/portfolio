@@ -7,8 +7,7 @@ import type { MotionMode } from './capabilities'
  * útil depois de um trecho de scroll; aqui definimos, em vh autorados, onde o link deve pousar.
  */
 const LANDING_VH: Record<string, number> = {
-  // os botões de contato terminam de aparecer em ~1.6vh (ver build em sections/Contact.tsx)
-  contato: 1.8,
+  // vazio: o Contato deixou de ser uma cena pinada, então todas as âncoras pousam no topo da seção
 }
 
 export function useAnchorLanding(mode: MotionMode, compact: boolean) {

@@ -30,8 +30,3 @@ export function ExtLink({
     </a>
   )
 }
-
-export const btnPrimary =
-  'inline-flex min-h-12 items-center gap-2 rounded-full bg-frost px-6 text-sm font-semibold text-ink transition duration-300 hover:bg-cyan hover:shadow-[0_0_40px_-6px_var(--color-cyan)]'
-export const btnGlass =
-  'glass inline-flex min-h-12 items-center gap-2 rounded-full px-6 text-sm font-medium text-frost transition duration-300 hover:border-cyan/60 hover:bg-white/10'

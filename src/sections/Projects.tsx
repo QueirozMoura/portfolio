@@ -1,6 +1,4 @@
 import { ArrowUpRight } from 'lucide-react'
-import { CROSSFADE } from '../config/scenes'
-import { useMotion } from '../lib/motion-context'
 import { ExtLink, GithubIcon } from '../components/ui'
 import { PROJECTS, type Project } from '../data/projects'
 import { SITE } from '../data/site'
@@ -128,17 +126,8 @@ function Card({ p, index, layout }: { p: Project; index: number; layout: Layout 
  * (scroll-driven animation, só onde há suporte); sem suporte ou sem JS, tudo já aparece.
  */
 export function Projects() {
-  const { mode } = useMotion()
-  const sequence = mode === 'sequence'
   return (
-    <section
-      id="projetos"
-      aria-labelledby="projetos-title"
-      className={`projects relative isolate ${sequence ? 'projects-tail' : 'pb-24 sm:pb-28'}`}
-      // Contato (ainda uma cena, só no modo animado) entra em crossfade sobre os últimos CROSSFADE×100svh desta
-      // seção: essa faixa fica reservada no fim, sem cobrir nenhum card.
-      style={sequence ? { paddingBottom: `calc(${CROSSFADE * 100}svh + 4rem)` } : undefined}
-    >
+    <section id="projetos" aria-labelledby="projetos-title" className="projects relative isolate pb-8 sm:pb-12 lg:pb-16">
       <div className="mx-auto w-full max-w-[90rem] px-4 pt-20 sm:px-6 sm:pt-24 lg:px-10 lg:pt-32">
         <header className="grid gap-6 lg:grid-cols-12 lg:items-end lg:gap-8">
           <div className="lg:col-span-8">
