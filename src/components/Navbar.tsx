@@ -5,7 +5,7 @@ import { NAV, SITE } from '../data/site'
 function ResumeButton({ className = '' }: { className?: string }) {
   if (SITE.resume) {
     return (
-      <a href={SITE.resume} download className={`nav-cta ${className}`}>
+      <a href={SITE.resume} download="Curriculo_Gustavo_Moura.pdf" type="application/pdf" className={`nav-cta ${className}`}>
         <Download className="h-4 w-4" aria-hidden="true" />
         Baixar Currículo
       </a>
