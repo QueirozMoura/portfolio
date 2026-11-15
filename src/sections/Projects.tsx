@@ -5,7 +5,7 @@ import { PROJECTS, type Project } from '../data/projects'
 import { SITE } from '../data/site'
 
 /** Ordem de exibição (os dados ficam intactos em data/projects.ts; projetos fora da lista vão para o fim). */
-const ORDER = ['Agendly', 'JFQ Assistência Técnica', 'SyncLab', 'Garantia+', 'Pulse', 'ServiceFlow']
+const ORDER = ['Agendly', 'JFQ Assistência Técnica', 'SyncLab', 'AutoFlow CLI', 'InfraWatch', 'Garantia+', 'Pulse', 'ServiceFlow']
 const rank = (p: Project) => {
   const i = ORDER.indexOf(p.name)
   return i === -1 ? ORDER.length : i
@@ -13,7 +13,7 @@ const rank = (p: Project) => {
 const ITEMS = [...PROJECTS].sort((a, b) => rank(a) - rank(b))
 
 /**
- * Composição editorial (desktop, 12 colunas): destaque largo → 7/5 → 5/7 → destaque largo invertido.
+ * Composição editorial (desktop, 12 colunas): destaque largo → pares assimétricos → destaque largo invertido.
  * Os cards menores à direita descem um pouco (offset), quebrando a grade de forma controlada.
  */
 type Layout = { variant: 'feature' | 'card'; span: string; flip?: boolean; offset?: boolean; sizes: string }
@@ -22,6 +22,8 @@ const LAYOUT: Layout[] = [
   { variant: 'feature', span: 'md:col-span-2 lg:col-span-12', sizes: FEATURE_SIZES },
   { variant: 'card', span: 'lg:col-span-7', sizes: '(min-width: 1440px) 780px, (min-width: 1024px) 54vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
   { variant: 'card', span: 'lg:col-span-5', offset: true, sizes: '(min-width: 1440px) 550px, (min-width: 1024px) 38vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
+  { variant: 'card', span: 'lg:col-span-5', sizes: '(min-width: 1440px) 550px, (min-width: 1024px) 38vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
+  { variant: 'card', span: 'lg:col-span-7', offset: true, sizes: '(min-width: 1440px) 780px, (min-width: 1024px) 54vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
   { variant: 'card', span: 'lg:col-span-5', sizes: '(min-width: 1440px) 550px, (min-width: 1024px) 38vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
   { variant: 'card', span: 'lg:col-span-7', offset: true, sizes: '(min-width: 1440px) 780px, (min-width: 1024px) 54vw, (min-width: 768px) calc(50vw - 2rem), calc(100vw - 2rem)' },
   { variant: 'feature', span: 'md:col-span-2 lg:col-span-12', flip: true, sizes: FEATURE_SIZES },

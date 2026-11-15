@@ -69,6 +69,28 @@ export const PROJECTS: Project[] = [
     },
   },
   {
+    name: 'AutoFlow CLI',
+    summary: 'CLI em Python para automatizar backups, restauração e organização de arquivos no Linux.',
+    stack: ['Python', 'pytest', 'GitHub Actions'],
+    highlights: [],
+    code: 'https://github.com/QueirozMoura/AutoFlow',
+    image: {
+      base: 'autoflow',
+      alt: 'Terminal do AutoFlow CLI com backup e restauração de dois arquivos fictícios concluídos e comparação confirmando que os arquivos restaurados são idênticos aos originais.',
+    },
+  },
+  {
+    name: 'InfraWatch',
+    summary: 'Monitoramento de servidores Linux com dashboards de CPU, memória, disco e rede, além de alertas automatizados.',
+    stack: ['Prometheus', 'Grafana', 'Node Exporter', 'Podman'],
+    highlights: [],
+    code: 'https://github.com/QueirozMoura/infrawatch',
+    image: {
+      base: 'infrawatch',
+      alt: 'Dashboard System Overview do InfraWatch no Grafana, com métricas reais de CPU, memória, armazenamento e tráfego de rede, todos os alvos disponíveis e nenhum alerta ativo.',
+    },
+  },
+  {
     name: 'Garantia+',
     summary: 'Cofre fiscal que centraliza compras, documentos fiscais e garantias em um único lugar.',
     stack: ['React', 'TypeScript', 'Node.js', 'PostgreSQL', 'Prisma', 'Vitest'],
